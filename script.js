@@ -70,7 +70,7 @@ const courses = [
         name: "ورزش 1",
         professor: "حسین ساکی",
         schedule: "شنبه از 14:45 تا 16:15",
-        exam: "" // بدون امتحان
+        exam: ""
     },
     {
         name: "زبان انگلیسی عمومی-ترکیبی(3)",
@@ -82,19 +82,17 @@ const courses = [
 
 // ========== توابع کمکی ==========
 function parseSchedule(scheduleStr) {
-    // ورودی: "دوشنبه از 16:30 تا 18:00"
     const parts = scheduleStr.split(' از ');
     if (parts.length < 2) return null;
 
     const dayPart = parts[0].trim();
-    const timePart = parts[1].trim(); // "16:30 تا 18:00"
+    const timePart = parts[1].trim();
     const times = timePart.split(' تا ');
     if (times.length < 2) return null;
 
     const startTime = times[0].trim();
     const endTime = times[1].trim();
 
-    // نگاشت روزهای هفته به ایندکس (شنبه=0)
     const dayMap = {
         'شنبه': 0,
         'یکشنبه': 1,
@@ -125,12 +123,13 @@ function parseExamDate(examStr) {
     return { year, month, day, hour, minute };
 }
 
-function getCurrentIranTime() {
+function getIranNow() {
+    // تبدیل زمان فعلی به وقت ایران
     return new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Tehran' }));
 }
 
 function getCurrentDayIndex() {
-    const now = getCurrentIranTime();
+    const now = getIranNow();
     // getDay(): 0 یکشنبه، 1 دوشنبه، ... 6 شنبه
     // تبدیل به ایندکس ما: شنبه=0
     const map = [6, 0, 1, 2, 3, 4, 5];
@@ -138,7 +137,7 @@ function getCurrentDayIndex() {
 }
 
 function getCurrentTimeString() {
-    return getCurrentIranTime().toTimeString().slice(0, 5); // "HH:MM"
+    return getIranNow().toTimeString().slice(0, 5); // "HH:MM"
 }
 
 function timeToMinutes(timeStr) {
@@ -154,7 +153,7 @@ function isTimeInRange(current, start, end) {
 }
 
 function getCurrentShamsiDate() {
-    const now = getCurrentIranTime();
+    const now = getIranNow();
     const formatter = new Intl.DateTimeFormat('en-US-u-ca-persian', {
         year: 'numeric',
         month: '2-digit',
@@ -166,7 +165,7 @@ function getCurrentShamsiDate() {
 }
 
 function getTomorrowShamsiDate() {
-    const now = getCurrentIranTime();
+    const now = getIranNow();
     const tomorrow = new Date(now);
     tomorrow.setDate(now.getDate() + 1);
     const formatter = new Intl.DateTimeFormat('en-US-u-ca-persian', {
@@ -224,7 +223,7 @@ function getUpcomingExams() {
 
 // ========== نمایش ساعت و تاریخ ==========
 function updateClock() {
-    const now = getCurrentIranTime();
+    const now = getIranNow();
     const clockEl = document.getElementById('clock');
     const dateEl = document.getElementById('date');
     if (!clockEl || !dateEl) return;
@@ -278,7 +277,6 @@ function updateExamReminderBox() {
         return;
     }
 
-    // نمایش اولین امتحان و اگر بیش از یکی بود، همه را نشان بده
     if (upcomingExams.length === 1) {
         const exam = upcomingExams[0];
         const typeText = exam.type === 'today' ? 'امروز' : 'فردا';
@@ -303,7 +301,16 @@ function renderScheduleTable() {
     const currentClass = getCurrentClass();
     const dayNames = ['شنبه', 'یکشنبه', 'دوشنبه', 'سه شنبه', 'چهارشنبه', 'پنجشنبه', 'جمعه'];
 
-    courses.forEach(course => {
+    // مرتب‌سازی: ابتدا بر اساس روز، سپس زمان شروع
+    const sortedCourses = [...courses].sort((a, b) => {
+        const sa = parseSchedule(a.schedule);
+        const sb = parseSchedule(b.schedule);
+        if (!sa || !sb) return 0;
+        if (sa.dayIndex !== sb.dayIndex) return sa.dayIndex - sb.dayIndex;
+        return timeToMinutes(sa.startTime) - timeToMinutes(sb.startTime);
+    });
+
+    sortedCourses.forEach(course => {
         const schedule = parseSchedule(course.schedule);
         if (!schedule) return;
 
@@ -332,23 +339,129 @@ function renderScheduleTable() {
     });
 }
 
+// ========== ساخت جدول لیست دروس ==========
+function renderListTable() {
+    const tbody = document.getElementById('list-body');
+    if (!tbody) return;
+
+    tbody.innerHTML = '';
+
+    courses.forEach((course, index) => {
+        const schedule = parseSchedule(course.schedule);
+        const dayNames = ['شنبه', 'یکشنبه', 'دوشنبه', 'سه شنبه', 'چهارشنبه', 'پنجشنبه', 'جمعه'];
+        const dayName = schedule ? dayNames[schedule.dayIndex] : 'نامشخص';
+        const timeStr = schedule ? `${schedule.startTime} تا ${schedule.endTime}` : 'نامشخص';
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>${index + 1}</td>
+            <td>${course.name}</td>
+            <td>${course.professor}</td>
+            <td>${dayName} ${timeStr}</td>
+            <td>${course.exam || '<span style="color:#aaa;">-</span>'}</td>
+        `;
+        tbody.appendChild(tr);
+    });
+}
+
+// ========== تب‌ها ==========
+function setupTabs() {
+    const tabs = document.querySelectorAll('.tab');
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            // حذف کلاس active از همه تب‌ها
+            tabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+
+            // مخفی کردن همه محتواها
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // نمایش محتوای مربوطه
+            const target = tab.getAttribute('data-tab');
+            if (target === 'weekly') {
+                document.getElementById('weekly-tab').classList.add('active');
+            } else {
+                document.getElementById('list-tab').classList.add('active');
+            }
+        });
+    });
+}
+
+// ========== لاگین ==========
+function checkLogin() {
+    const saved = localStorage.getItem('mok_logged_in');
+    return saved === 'true';
+}
+
+function showMainContent() {
+    document.getElementById('login-overlay').classList.add('hidden');
+    document.getElementById('main-content').classList.remove('hidden');
+    updateAll();
+}
+
+function showLogin() {
+    document.getElementById('login-overlay').classList.remove('hidden');
+    document.getElementById('main-content').classList.add('hidden');
+}
+
+function handleLogin(event) {
+    event.preventDefault();
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value.trim();
+    const errorEl = document.getElementById('login-error');
+
+    if (username === 'MOK' && password === '13241234') {
+        localStorage.setItem('mok_logged_in', 'true');
+        errorEl.textContent = '';
+        document.getElementById('login-form').reset();
+        showMainContent();
+    } else {
+        errorEl.textContent = 'نام کاربری یا رمز عبور اشتباه است';
+    }
+}
+
+function handleLogout() {
+    localStorage.removeItem('mok_logged_in');
+    showLogin();
+}
+
 // ========== به‌روزرسانی همه ==========
 function updateAll() {
     updateClock();
     updateCurrentClassBox();
     updateExamReminderBox();
     renderScheduleTable();
+    renderListTable();
 }
 
 // ========== اجرای اولیه ==========
 document.addEventListener('DOMContentLoaded', () => {
-    updateAll();
+    // تنظیم رویدادها
+    document.getElementById('login-form').addEventListener('submit', handleLogin);
+    document.getElementById('logout-btn').addEventListener('click', handleLogout);
+    setupTabs();
+
+    // بررسی وضعیت لاگین
+    if (checkLogin()) {
+        showMainContent();
+    } else {
+        showLogin();
+    }
+
+    // به‌روزرسانی هر ثانیه
     setInterval(() => {
-        updateClock();
-        updateCurrentClassBox();
-        updateExamReminderBox();
-        // جدول هر دقیقه یک‌بار بازسازی شود تا هایلایت‌ها به‌روز شوند
-        const now = new Date();
-        if (now.getSeconds() === 0) renderScheduleTable();
+        if (checkLogin()) {
+            updateClock();
+            updateCurrentClassBox();
+            updateExamReminderBox();
+            // جدول‌ها هر ۵ ثانیه یک‌بار بازسازی شوند
+            const now = new Date();
+            if (now.getSeconds() % 5 === 0) {
+                renderScheduleTable();
+                renderListTable();
+            }
+        }
     }, 1000);
 });
