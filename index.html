@@ -4,13 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>پنل دانشجو | ترم ۳</title>
-    
+    <meta name="description" content="برنامه هفتگی، کلاس‌ها و امتحانات دانشجو">
+
     <!-- PWA -->
     <link rel="manifest" href="./manifest.json">
     <meta name="theme-color" content="#1e3c72">
     <link rel="apple-touch-icon" href="./icon.svg">
     <link rel="icon" type="image/svg+xml" href="./icon.svg">
-    
+
+    <!-- متا تگ‌های iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="درس‌ها">
+
     <!-- فونت فارسی وزیر -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css">
     <link rel="stylesheet" href="style.css">
@@ -18,18 +24,16 @@
 <body>
 
     <!-- پس‌زمینه انیمیشنی نقطه‌های طلایی -->
-    <div id="bg-animation" class="bg-animation"></div>
+    <div id="bg-animation" class="bg-animation" aria-hidden="true"></div>
 
-    <!-- نوتیفیکیشن -->
-    <div id="toast" class="toast">متن نوتیفیکیشن</div>
-
-    <!-- نوتیفیکیشن آپدیت -->
-    <div id="update-toast" class="toast update-toast">نسخه جدید آماده است</div>
+    <!-- نوتیفیکیشن‌ها -->
+    <div id="toast" class="toast" role="alert" aria-live="assertive"></div>
+    <div id="update-toast" class="toast update-toast" role="alert" aria-live="polite"></div>
 
     <!-- صفحه لاگین -->
     <div id="login-overlay" class="login-overlay">
         <div class="login-container glass-card">
-            <div class="login-title">🔐 ورود به سامانه</div>
+            <h1 class="login-title">🔐 ورود به سامانه</h1>
             <form id="login-form">
                 <div class="input-group">
                     <label for="username">نام کاربری</label>
@@ -40,98 +44,104 @@
                     <input type="password" id="password" placeholder="رمز عبور" autocomplete="off" required>
                 </div>
                 <button type="submit" class="login-btn">ورود</button>
-                <p id="login-error" class="error-message"></p>
+                <p id="login-error" class="error-message" role="alert"></p>
             </form>
         </div>
     </div>
 
     <!-- محتوای اصلی -->
     <div id="main-content" class="panel hidden">
-        <!-- هدر -->
-        <div class="panel-header glass-card">
+        <header class="panel-header glass-card">
             <div class="header-right">
-                <div class="panel-title">📅 ترم ۳</div>
-                <button id="logout-btn" class="logout-btn">خروج</button>
+                <h1 class="panel-title">📅 ترم ۳</h1>
+                <!-- منوی کاربر -->
+                <div class="user-menu">
+                    <button class="user-button" id="user-button" aria-haspopup="true" aria-expanded="false">
+                        <span id="user-name"></span>
+                        <span class="user-arrow">▾</span>
+                    </button>
+                    <div class="user-dropdown" id="user-dropdown" role="menu">
+                        <button class="logout-btn" id="logout-btn" role="menuitem">خروج از حساب</button>
+                    </div>
+                </div>
             </div>
             <div class="clock-container">
-                <div class="clock" id="clock">--:--:--</div>
-                <div class="date" id="date">---</div>
+                <div class="clock" id="clock" aria-label="ساعت">--:--:--</div>
+                <div class="date" id="date" aria-label="تاریخ">---</div>
             </div>
-        </div>
+        </header>
 
-        <!-- باکس اصلی (کلاس جاری یا امتحان‌های پیش رو) -->
-        <div class="glass-card main-info-box" id="main-info-box">
-            <div class="box-title" id="box-title">🕒 الان باید در این کلاس باشی:</div>
-            <div class="box-content" id="box-content">
-                کلاسی در حال برگزاری نیست
-            </div>
-        </div>
+        <main>
+            <!-- باکس کلاس فعلی یا امتحان‌های پیش رو -->
+            <section class="glass-card main-info-box" id="main-info-box">
+                <div class="box-title" id="box-title">کلاس فعلی:</div>
+                <div class="box-content" id="box-content">کلاسی در حال برگزاری نیست</div>
+            </section>
 
-        <!-- تب‌ها -->
-        <div class="tabs">
-            <div class="tab active" data-tab="weekly">📅 برنامه هفتگی</div>
-            <div class="tab" data-tab="list">📋 لیست دروس</div>
-            <div class="tab" data-tab="exams">📝 امتحانات</div>
-        </div>
+            <!-- تب‌ها -->
+            <nav class="tabs" aria-label="بخش‌های پنل">
+                <button class="tab active" data-tab="weekly" aria-selected="true">📅 برنامه هفتگی</button>
+                <button class="tab" data-tab="list" aria-selected="false">📋 لیست دروس</button>
+                <button class="tab" data-tab="exams" aria-selected="false">📝 امتحانات</button>
+            </nav>
 
-        <!-- تب برنامه هفتگی -->
-        <div id="weekly-tab" class="tab-content active">
-            <div class="table-wrapper glass-card">
-                <table id="weekly-schedule-table">
-                    <thead>
-                        <tr>
-                            <th>روز</th>
-                            <th>ساعت</th>
-                            <th>نام درس</th>
-                            <th>استاد</th>
-                        </tr>
-                    </thead>
-                    <tbody id="schedule-body">
-                        <!-- ردیف‌ها با جاوااسکریپت ساخته می‌شوند -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
+            <!-- تب برنامه هفتگی -->
+            <section id="weekly-tab" class="tab-content active" role="tabpanel">
+                <div class="table-wrapper glass-card">
+                    <table id="weekly-schedule-table" aria-label="برنامه هفتگی کلاس‌ها">
+                        <thead>
+                            <tr>
+                                <th>روز</th>
+                                <th>ساعت</th>
+                                <th>نام درس</th>
+                                <th>استاد</th>
+                            </tr>
+                        </thead>
+                        <tbody id="schedule-body"></tbody>
+                    </table>
+                </div>
+            </section>
 
-        <!-- تب لیست دروس -->
-        <div id="list-tab" class="tab-content">
-            <div class="table-wrapper glass-card">
-                <table id="courses-list-table">
-                    <thead>
-                        <tr>
-                            <th data-sort="index">ردیف</th>
-                            <th data-sort="name">نام درس</th>
-                            <th data-sort="professor">نام استاد</th>
-                            <th data-sort="schedule">زمان کلاس</th>
-                            <th data-sort="exam">زمان امتحان</th>
-                            <th data-sort="units">واحد</th>
-                        </tr>
-                    </thead>
-                    <tbody id="list-body">
-                        <!-- ردیف‌ها با جاوااسکریپت ساخته می‌شوند -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
+            <!-- تب لیست دروس -->
+            <section id="list-tab" class="tab-content" role="tabpanel">
+                <div class="table-wrapper glass-card">
+                    <table id="courses-list-table" aria-label="لیست دروس">
+                        <thead>
+                            <tr>
+                                <th data-sort="index">ردیف</th>
+                                <th data-sort="name">نام درس</th>
+                                <th data-sort="professor">نام استاد</th>
+                                <th data-sort="schedule">زمان کلاس</th>
+                                <th data-sort="exam">زمان امتحان</th>
+                                <th data-sort="units">واحد</th>
+                            </tr>
+                        </thead>
+                        <tbody id="list-body"></tbody>
+                    </table>
+                </div>
+            </section>
 
-        <!-- تب امتحانات -->
-        <div id="exams-tab" class="tab-content">
-            <div class="table-wrapper glass-card">
-                <table id="exams-table">
-                    <thead>
-                        <tr>
-                            <th>تاریخ امتحان</th>
-                            <th>ساعت امتحان</th>
-                            <th>نام درس</th>
-                            <th>استاد</th>
-                        </tr>
-                    </thead>
-                    <tbody id="exams-body">
-                        <!-- ردیف‌ها با جاوااسکریپت ساخته می‌شوند -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
+            <!-- تب امتحانات -->
+            <section id="exams-tab" class="tab-content" role="tabpanel">
+                <div class="table-wrapper glass-card">
+                    <table id="exams-table" aria-label="برنامه امتحانات">
+                        <thead>
+                            <tr>
+                                <th>تاریخ امتحان</th>
+                                <th>ساعت امتحان</th>
+                                <th>نام درس</th>
+                                <th>استاد</th>
+                            </tr>
+                        </thead>
+                        <tbody id="exams-body"></tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer glass-card">
+            <p id="footer-text"></p>
+        </footer>
     </div>
 
     <script src="script.js"></script>
