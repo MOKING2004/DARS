@@ -1,0 +1,139 @@
+/* ========== ریست و تنظیمات پایه ========== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Vazir', 'Tahoma', sans-serif;
+}
+
+body {
+    background: #f0f2f5;
+    padding: 20px;
+    direction: rtl;
+}
+
+/* ========== پنل اصلی ========== */
+.panel {
+    max-width: 1400px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+}
+
+/* ========== هدر پنل ========== */
+.panel-header {
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    color: white;
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.panel-title {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.clock-container {
+    text-align: left;
+    font-size: 16px;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 8px 16px;
+    border-radius: 10px;
+}
+
+.clock {
+    font-size: 22px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.date {
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+/* ========== جدول ========== */
+.table-wrapper {
+    overflow-x: auto;
+    padding: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    min-width: 1200px;
+}
+
+th {
+    background: #f8f9fa;
+    color: #333;
+    font-weight: bold;
+    padding: 12px 10px;
+    text-align: center;
+    border-bottom: 2px solid #dee2e6;
+    white-space: nowrap;
+}
+
+td {
+    padding: 10px;
+    border-bottom: 1px solid #e9ecef;
+    text-align: center;
+    vertical-align: middle;
+}
+
+tr:hover td {
+    background-color: #f1f3f5;
+}
+
+/* ========== نشان وضعیت ========== */
+.status-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.valid {
+    background: #d4edda;
+    color: #155724;
+}
+
+.empty-cell {
+    color: #adb5bd;
+    font-style: italic;
+}
+
+.fee {
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+/* ========== واکنش‌گرایی ========== */
+@media (max-width: 768px) {
+    .panel-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .clock-container {
+        text-align: right;
+        width: 100%;
+    }
+
+    .panel-title {
+        font-size: 20px;
+    }
+
+    table {
+        font-size: 12px;
+        min-width: 900px;
+    }
+}
