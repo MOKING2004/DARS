@@ -1,4 +1,4 @@
-const CACHE_NAME = 'student-panel-v1.0.0';
+const CACHE_NAME = 'student-panel-v1.1.0';
 const ASSETS = [
     './',
     './index.html',
@@ -34,25 +34,32 @@ self.addEventListener('activate', (event) => {
     );
 });
 
-// استراتژی کش: اول شبکه، در صورت آفلاین از کش
+// استراتژی Stale-While-Revalidate برای فایل‌های استاتیک
 self.addEventListener('fetch', (event) => {
+    if (event.request.method !== 'GET') return;
+
     event.respondWith(
-        fetch(event.request)
-            .then((response) => {
-                // اگر درخواست موفق بود، یک کپی در کش ذخیره کن
-                const responseClone = response.clone();
-                caches.open(CACHE_NAME).then((cache) => {
-                    cache.put(event.request, responseClone);
-                });
-                return response;
-            })
-            .catch(() => {
-                return caches.match(event.request);
+        caches.match(event.request)
+            .then((cachedResponse) => {
+                const fetchPromise = fetch(event.request)
+                    .then((networkResponse) => {
+                        // اگر پاسخ معتبر بود، کش را به‌روزرسانی کن
+                        if (networkResponse && networkResponse.status === 200) {
+                            const responseClone = networkResponse.clone();
+                            caches.open(CACHE_NAME).then((cache) => {
+                                cache.put(event.request, responseClone);
+                            });
+                        }
+                        return networkResponse;
+                    })
+                    .catch(() => cachedResponse); // در صورت آفلاین از کش قبلی استفاده کن
+
+                return cachedResponse || fetchPromise;
             })
     );
 });
 
-// پیام برای به‌روزرسانی فوری
+// پیام برای skipWaiting
 self.addEventListener('message', (event) => {
     if (event.data === 'SKIP_WAITING') {
         self.skipWaiting();
