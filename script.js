@@ -389,9 +389,25 @@ function setupTabs() {
     });
 }
 
+// ========== توابع امن localStorage ==========
+function safeLocalStorage(action, key, value = null) {
+    try {
+        if (action === 'set') {
+            localStorage.setItem(key, value);
+        } else if (action === 'get') {
+            return localStorage.getItem(key);
+        } else if (action === 'remove') {
+            localStorage.removeItem(key);
+        }
+    } catch (e) {
+        console.warn('خطا در localStorage:', e);
+        return null;
+    }
+}
+
 // ========== لاگین ==========
 function checkLogin() {
-    const saved = localStorage.getItem('mok_logged_in');
+    const saved = safeLocalStorage('get', 'mok_logged_in');
     return saved === 'true';
 }
 
@@ -413,7 +429,7 @@ function handleLogin(event) {
     const errorEl = document.getElementById('login-error');
 
     if (username === 'MOK' && password === '13241234') {
-        localStorage.setItem('mok_logged_in', 'true');
+        safeLocalStorage('set', 'mok_logged_in', 'true');
         errorEl.textContent = '';
         document.getElementById('login-form').reset();
         showMainContent();
@@ -423,7 +439,7 @@ function handleLogin(event) {
 }
 
 function handleLogout() {
-    localStorage.removeItem('mok_logged_in');
+    safeLocalStorage('remove', 'mok_logged_in');
     showLogin();
 }
 
@@ -438,19 +454,16 @@ function updateAll() {
 
 // ========== اجرای اولیه ==========
 document.addEventListener('DOMContentLoaded', () => {
-    // تنظیم رویدادها
     document.getElementById('login-form').addEventListener('submit', handleLogin);
     document.getElementById('logout-btn').addEventListener('click', handleLogout);
     setupTabs();
 
-    // بررسی وضعیت لاگین
     if (checkLogin()) {
         showMainContent();
     } else {
         showLogin();
     }
 
-    // به‌روزرسانی هر ثانیه
     setInterval(() => {
         if (checkLogin()) {
             updateClock();
