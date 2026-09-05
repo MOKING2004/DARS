@@ -1,365 +1,232 @@
-// ========== داده‌های دروس انتخابی ==========
+// ========== داده‌های دروس ==========
 const courses = [
     {
-        code: "99083",
         name: "انس با قرآن کریم",
-        offerCode: "100011",
-        className: "",
         professor: "محمدحسن مقصودی گودرزی",
         schedule: "دوشنبه از 16:30 تا 18:00",
-        exam: "1405/10/14 از 12:45 تا 13:45",
-        validity: "معتبر",
-        gender: "مرد",
-        fee: 0,
-        currency: "IRR-ریال",
-        provider: "گروه آموزشي دروس عمومي",
-        period: "انتخاب واحد",
-        theoreticalUnits: 1,
-        practicalUnits: 0,
-        presentationType: "حضوري",
-        deleteStatus: "-",
-        studentStatus: "عادي",
-        takeStatus: "عادي",
-        majorStatus: "عادي",
-        theoreticalHours: 32,
-        practicalHours: 0
+        exam: "1405/10/14 از 12:45 تا 13:45"
     },
     {
-        code: "99091",
         name: "زبان انگلیسی عمومی-ترکیبی(2)",
-        offerCode: "5110",
-        className: "",
         professor: "مريم بيرجندي",
         schedule: "يكشنبه از 19:30 تا 20:15",
-        exam: "1405/11/02 از 13:00 تا 14:00",
-        validity: "معتبر",
-        gender: "",
-        fee: 5706500,
-        currency: "IRR-ریال",
-        provider: "گروه آموزشي زبان هاي خارجي",
-        period: "انتخاب واحد",
-        theoreticalUnits: 1,
-        practicalUnits: 0,
-        presentationType: "ارائه ترکیبی در واحد منتخب",
-        deleteStatus: "-",
-        studentStatus: "عادي",
-        takeStatus: "عادي",
-        majorStatus: "عادي",
-        theoreticalHours: 16,
-        practicalHours: 0
+        exam: "1405/11/02 از 13:00 تا 14:00"
     },
     {
-        code: "1068124206",
         name: "حقوق مدنی (3) کلیات قراردادها",
-        offerCode: "41424444",
-        className: "",
         professor: "عبدالمحمد کردی",
         schedule: "سه شنبه از 07:30 تا 09:45",
-        exam: "1405/10/19 از 10:30 تا 12:00",
-        validity: "معتبر",
-        gender: "",
-        fee: 17119500,
-        currency: "IRR-ریال",
-        provider: "گروه آموزشي حقوق",
-        period: "انتخاب واحد",
-        theoreticalUnits: 3,
-        practicalUnits: 0,
-        presentationType: "حضوري",
-        deleteStatus: "-",
-        studentStatus: "عادي",
-        takeStatus: "عادي",
-        majorStatus: "عادي",
-        theoreticalHours: 48,
-        practicalHours: 0
+        exam: "1405/10/19 از 10:30 تا 12:00"
     },
     {
-        code: "1068165616",
         name: "حقوق تجارت (3) اسناد تجاری",
-        offerCode: "41424447",
-        className: "",
         professor: "حسین شعبان پور",
         schedule: "چهارشنبه از 13:00 تا 14:30",
-        exam: "1405/10/15 از 10:30 تا 12:00",
-        validity: "معتبر",
-        gender: "",
-        fee: 11413000,
-        currency: "IRR-ریال",
-        provider: "گروه آموزشي حقوق",
-        period: "انتخاب واحد",
-        theoreticalUnits: 2,
-        practicalUnits: 0,
-        presentationType: "حضوري",
-        deleteStatus: "-",
-        studentStatus: "عادي",
-        takeStatus: "عادي",
-        majorStatus: "عادي",
-        theoreticalHours: 32,
-        practicalHours: 0
+        exam: "1405/10/15 از 10:30 تا 12:00"
     },
     {
-        code: "1068105717",
         name: "اصول فقه (1)",
-        offerCode: "41424452",
-        className: "",
         professor: "محمد گودرزی",
         schedule: "يكشنبه از 08:00 تا 09:30",
-        exam: "1405/10/13 از 10:30 تا 12:00",
-        validity: "معتبر",
-        gender: "",
-        fee: 11413000,
-        currency: "IRR-ریال",
-        provider: "گروه آموزشي حقوق",
-        period: "انتخاب واحد",
-        theoreticalUnits: 2,
-        practicalUnits: 0,
-        presentationType: "حضوري",
-        deleteStatus: "-",
-        studentStatus: "عادي",
-        takeStatus: "عادي",
-        majorStatus: "عادي",
-        theoreticalHours: 32,
-        practicalHours: 0
+        exam: "1405/10/13 از 10:30 تا 12:00"
     },
     {
-        code: "1068124012",
         name: "حقوق سازمان‌های بین‌المللی",
-        offerCode: "41424465",
-        className: "",
         professor: "رضا کرمی",
         schedule: "يكشنبه از 10:00 تا 11:30",
-        exam: "1405/10/20 از 08:30 تا 10:00",
-        validity: "معتبر",
-        gender: "",
-        fee: 11413000,
-        currency: "IRR-ریال",
-        provider: "گروه آموزشي حقوق",
-        period: "انتخاب واحد",
-        theoreticalUnits: 2,
-        practicalUnits: 0,
-        presentationType: "حضوري",
-        deleteStatus: "-",
-        studentStatus: "عادي",
-        takeStatus: "عادي",
-        majorStatus: "عادي",
-        theoreticalHours: 32,
-        practicalHours: 0
+        exam: "1405/10/20 از 08:30 تا 10:00"
     },
     {
-        code: "1068110186",
         name: "آیین دادرسی مدنی (1)",
-        offerCode: "41424471",
-        className: "",
         professor: "محمدصفر نوروزی",
         schedule: "دوشنبه از 14:45 تا 16:15",
-        exam: "1405/10/14 از 08:30 تا 10:00",
-        validity: "معتبر",
-        gender: "",
-        fee: 11413000,
-        currency: "IRR-ریال",
-        provider: "گروه آموزشي حقوق",
-        period: "انتخاب واحد",
-        theoreticalUnits: 2,
-        practicalUnits: 0,
-        presentationType: "حضوري",
-        deleteStatus: "-",
-        studentStatus: "عادي",
-        takeStatus: "عادي",
-        majorStatus: "عادي",
-        theoreticalHours: 32,
-        practicalHours: 0
+        exam: "1405/10/14 از 08:30 تا 10:00"
     },
     {
-        code: "90763",
         name: "تفسیر موضوعی قرآن",
-        offerCode: "41424645",
-        className: "",
         professor: "مجتبی بیرانوند",
         schedule: "يكشنبه از 13:00 تا 14:30",
-        exam: "1405/10/13 از 12:45 تا 13:45",
-        validity: "معتبر",
-        gender: "مرد",
-        fee: 11413000,
-        currency: "IRR-ریال",
-        provider: "گروه آموزشي دروس عمومي",
-        period: "انتخاب واحد",
-        theoreticalUnits: 2,
-        practicalUnits: 0,
-        presentationType: "حضوري",
-        deleteStatus: "-",
-        studentStatus: "عادي",
-        takeStatus: "عادي",
-        majorStatus: "عادي",
-        theoreticalHours: 32,
-        practicalHours: 0
+        exam: "1405/10/13 از 12:45 تا 13:45"
     },
     {
-        code: "1068171225",
         name: "حقوق بین المللی عمومی (3) روش های حل و فصل مسالمت آمیز اختلافات",
-        offerCode: "41424814",
-        className: "",
         professor: "مهدی یوسف وند",
         schedule: "يكشنبه از 14:45 تا 16:15",
-        exam: "1405/10/21 از 08:30 تا 10:00",
-        validity: "معتبر",
-        gender: "",
-        fee: 11413000,
-        currency: "IRR-ریال",
-        provider: "گروه آموزشي حقوق",
-        period: "انتخاب واحد",
-        theoreticalUnits: 2,
-        practicalUnits: 0,
-        presentationType: "حضوري",
-        deleteStatus: "-",
-        studentStatus: "عادي",
-        takeStatus: "عادي",
-        majorStatus: "عادي",
-        theoreticalHours: 32,
-        practicalHours: 0
+        exam: "1405/10/21 از 08:30 تا 10:00"
     },
     {
-        code: "1068123782",
         name: "حقوق جزای عمومی (2)",
-        offerCode: "41424829",
-        className: "",
         professor: "رضا محبي فر",
         schedule: "يكشنبه از 16:30 تا 18:00",
-        exam: "1405/10/22 از 08:30 تا 10:00",
-        validity: "معتبر",
-        gender: "",
-        fee: 11413000,
-        currency: "IRR-ریال",
-        provider: "گروه آموزشي حقوق",
-        period: "انتخاب واحد",
-        theoreticalUnits: 2,
-        practicalUnits: 0,
-        presentationType: "حضوري",
-        deleteStatus: "-",
-        studentStatus: "عادي",
-        takeStatus: "عادي",
-        majorStatus: "عادي",
-        theoreticalHours: 32,
-        practicalHours: 0
+        exam: "1405/10/22 از 08:30 تا 10:00"
     },
     {
-        code: "99079",
         name: "تربیت بدنی",
-        offerCode: "143",
-        className: "",
         professor: "وحيد ترک ملک",
         schedule: "شنبه از 13:00 تا 14:30",
-        exam: "1405/10/10 از 10:30 تا 12:00",
-        validity: "معتبر",
-        gender: "مرد",
-        fee: 7014450,
-        currency: "IRR-ریال",
-        provider: "گروه آموزشي تربيت بدني (علوم ورزشي)",
-        period: "انتخاب واحد",
-        theoreticalUnits: 0.5,
-        practicalUnits: 0.5,
-        presentationType: "حضوري",
-        deleteStatus: "-",
-        studentStatus: "عادي",
-        takeStatus: "عادي",
-        majorStatus: "عادي",
-        theoreticalHours: 8,
-        practicalHours: 16
+        exam: "1405/10/10 از 10:30 تا 12:00"
     },
     {
-        code: "99062",
         name: "ورزش 1",
-        offerCode: "151",
-        className: "",
         professor: "حسین ساکی",
         schedule: "شنبه از 14:45 تا 16:15",
-        exam: "",
-        validity: "معتبر",
-        gender: "مرد",
-        fee: 8322400,
-        currency: "IRR-ریال",
-        provider: "گروه آموزشي تربيت بدني (علوم ورزشي)",
-        period: "انتخاب واحد",
-        theoreticalUnits: 0,
-        practicalUnits: 1,
-        presentationType: "حضوري",
-        deleteStatus: "-",
-        studentStatus: "عادي",
-        takeStatus: "عادي",
-        majorStatus: "عادي",
-        theoreticalHours: 0,
-        practicalHours: 32
+        exam: "" // بدون امتحان
     },
     {
-        code: "99092",
         name: "زبان انگلیسی عمومی-ترکیبی(3)",
-        offerCode: "5115",
-        className: "",
         professor: "سينا کسرائي",
         schedule: "شنبه از 19:15 تا 20:00",
-        exam: "1405/10/25 از 13:00 تا 14:00",
-        validity: "معتبر",
-        gender: "",
-        fee: 5706500,
-        currency: "IRR-ریال",
-        provider: "گروه آموزشي زبان هاي خارجي",
-        period: "انتخاب واحد",
-        theoreticalUnits: 1,
-        practicalUnits: 0,
-        presentationType: "ارائه ترکیبی در واحد منتخب",
-        deleteStatus: "-",
-        studentStatus: "عادي",
-        takeStatus: "عادي",
-        majorStatus: "عادي",
-        theoreticalHours: 16,
-        practicalHours: 0
+        exam: "1405/10/25 از 13:00 تا 14:00"
     }
 ];
 
-// ========== تابع نمایش جدول ==========
-function renderTable() {
-    const tbody = document.getElementById('table-body');
-    if (!tbody) return;
+// ========== توابع کمکی ==========
+function parseSchedule(scheduleStr) {
+    // ورودی: "دوشنبه از 16:30 تا 18:00"
+    const parts = scheduleStr.split(' از ');
+    if (parts.length < 2) return null;
 
-    tbody.innerHTML = '';
+    const dayPart = parts[0].trim();
+    const timePart = parts[1].trim(); // "16:30 تا 18:00"
+    const times = timePart.split(' تا ');
+    if (times.length < 2) return null;
 
-    courses.forEach((course, index) => {
-        const tr = document.createElement('tr');
+    const startTime = times[0].trim();
+    const endTime = times[1].trim();
 
-        // ساخت سلول‌ها
-        tr.innerHTML = `
-            <td>${index + 1}</td>
-            <td>${course.code}</td>
-            <td style="text-align: right;">${course.name}</td>
-            <td>${course.offerCode}</td>
-            <td style="text-align: right;">${course.professor}</td>
-            <td>${course.schedule}</td>
-            <td>${course.exam || '<span class="empty-cell">-</span>'}</td>
-            <td><span class="status-badge valid">${course.validity}</span></td>
-            <td>${course.gender || '<span class="empty-cell">-</span>'}</td>
-            <td class="fee">${course.fee.toLocaleString('fa-IR')}</td>
-            <td>${course.currency}</td>
-            <td>${course.provider}</td>
-            <td>${course.period}</td>
-            <td>${course.theoreticalUnits}</td>
-            <td>${course.practicalUnits}</td>
-            <td>${course.presentationType}</td>
-            <td>${course.deleteStatus}</td>
-            <td>${course.studentStatus}</td>
-            <td>${course.takeStatus}</td>
-            <td>${course.majorStatus}</td>
-            <td>${course.theoreticalHours}</td>
-            <td>${course.practicalHours}</td>
-        `;
+    // نگاشت روزهای هفته به ایندکس (شنبه=0)
+    const dayMap = {
+        'شنبه': 0,
+        'یکشنبه': 1,
+        'دوشنبه': 2,
+        'سه شنبه': 3,
+        'چهارشنبه': 4,
+        'پنجشنبه': 5,
+        'جمعه': 6
+    };
+    const dayIndex = dayMap[dayPart];
+    if (dayIndex === undefined) return null;
 
-        tbody.appendChild(tr);
-    });
+    return { dayIndex, startTime, endTime };
 }
 
-// ========== تابع به‌روزرسانی ساعت و تاریخ ==========
+function parseExamDate(examStr) {
+    if (!examStr) return null;
+    const parts = examStr.split(' از ');
+    if (parts.length < 2) return null;
+
+    const datePart = parts[0].trim(); // "1405/10/14"
+    const timePart = parts[1].trim(); // "12:45 تا 13:45"
+    const examTime = timePart.split(' تا ')[0].trim(); // "12:45"
+
+    const [year, month, day] = datePart.split('/').map(Number);
+    const [hour, minute] = examTime.split(':').map(Number);
+
+    return { year, month, day, hour, minute };
+}
+
+function getCurrentIranTime() {
+    return new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Tehran' }));
+}
+
+function getCurrentDayIndex() {
+    const now = getCurrentIranTime();
+    // getDay(): 0 یکشنبه، 1 دوشنبه، ... 6 شنبه
+    // تبدیل به ایندکس ما: شنبه=0
+    const map = [6, 0, 1, 2, 3, 4, 5];
+    return map[now.getDay()];
+}
+
+function getCurrentTimeString() {
+    return getCurrentIranTime().toTimeString().slice(0, 5); // "HH:MM"
+}
+
+function timeToMinutes(timeStr) {
+    const [h, m] = timeStr.split(':').map(Number);
+    return h * 60 + m;
+}
+
+function isTimeInRange(current, start, end) {
+    const c = timeToMinutes(current);
+    const s = timeToMinutes(start);
+    const e = timeToMinutes(end);
+    return c >= s && c <= e;
+}
+
+function getCurrentShamsiDate() {
+    const now = getCurrentIranTime();
+    const formatter = new Intl.DateTimeFormat('en-US-u-ca-persian', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+    });
+    const parts = formatter.formatToParts(now);
+    const get = (type) => Number(parts.find(p => p.type === type)?.value);
+    return { year: get('year'), month: get('month'), day: get('day') };
+}
+
+function getTomorrowShamsiDate() {
+    const now = getCurrentIranTime();
+    const tomorrow = new Date(now);
+    tomorrow.setDate(now.getDate() + 1);
+    const formatter = new Intl.DateTimeFormat('en-US-u-ca-persian', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+    });
+    const parts = formatter.formatToParts(tomorrow);
+    const get = (type) => Number(parts.find(p => p.type === type)?.value);
+    return { year: get('year'), month: get('month'), day: get('day') };
+}
+
+// ========== تشخیص کلاس در حال برگزاری ==========
+function getCurrentClass() {
+    const currentDay = getCurrentDayIndex();
+    const currentTime = getCurrentTimeString();
+
+    for (const course of courses) {
+        const schedule = parseSchedule(course.schedule);
+        if (schedule && schedule.dayIndex === currentDay && isTimeInRange(currentTime, schedule.startTime, schedule.endTime)) {
+            return course;
+        }
+    }
+    return null;
+}
+
+// ========== تشخیص امتحان‌های پیش رو ==========
+function getUpcomingExams() {
+    const today = getCurrentShamsiDate();
+    const tomorrow = getTomorrowShamsiDate();
+    const currentTime = getCurrentTimeString();
+    const upcoming = [];
+
+    for (const course of courses) {
+        if (!course.exam) continue;
+        const exam = parseExamDate(course.exam);
+        if (!exam) continue;
+
+        const examTimeStr = `${String(exam.hour).padStart(2, '0')}:${String(exam.minute).padStart(2, '0')}`;
+        const examDate = { year: exam.year, month: exam.month, day: exam.day };
+
+        // اگر امتحان فردا باشد
+        if (examDate.year === tomorrow.year && examDate.month === tomorrow.month && examDate.day === tomorrow.day) {
+            upcoming.push({ course, exam, type: 'tomorrow' });
+        }
+        // اگر امتحان امروز باشد و هنوز وقتش نگذشته
+        else if (examDate.year === today.year && examDate.month === today.month && examDate.day === today.day) {
+            if (currentTime < examTimeStr) {
+                upcoming.push({ course, exam, type: 'today' });
+            }
+        }
+    }
+    return upcoming;
+}
+
+// ========== نمایش ساعت و تاریخ ==========
 function updateClock() {
-    const now = new Date();
+    const now = getCurrentIranTime();
     const clockEl = document.getElementById('clock');
     const dateEl = document.getElementById('date');
-
     if (!clockEl || !dateEl) return;
 
     const optionsTime = {
@@ -369,7 +236,6 @@ function updateClock() {
         second: '2-digit',
         hour12: false
     };
-
     const optionsDate = {
         timeZone: 'Asia/Tehran',
         year: 'numeric',
@@ -382,9 +248,107 @@ function updateClock() {
     dateEl.textContent = now.toLocaleDateString('fa-IR', optionsDate);
 }
 
+// ========== به‌روزرسانی باکس کلاس جاری ==========
+function updateCurrentClassBox() {
+    const box = document.getElementById('current-class-box');
+    const info = document.getElementById('current-class-info');
+    if (!box || !info) return;
+
+    const currentClass = getCurrentClass();
+
+    if (currentClass) {
+        box.classList.remove('empty');
+        info.innerHTML = `${currentClass.name} - ${currentClass.professor}`;
+    } else {
+        box.classList.add('empty');
+        info.textContent = 'کلاسی در حال برگزاری نیست';
+    }
+}
+
+// ========== به‌روزرسانی باکس امتحان‌های نزدیک ==========
+function updateExamReminderBox() {
+    const box = document.getElementById('exam-reminder-box');
+    const info = document.getElementById('exam-reminder-info');
+    if (!box || !info) return;
+
+    const upcomingExams = getUpcomingExams();
+
+    if (upcomingExams.length === 0) {
+        info.textContent = 'امتحانی نزدیک نیست';
+        return;
+    }
+
+    // نمایش اولین امتحان و اگر بیش از یکی بود، همه را نشان بده
+    if (upcomingExams.length === 1) {
+        const exam = upcomingExams[0];
+        const typeText = exam.type === 'today' ? 'امروز' : 'فردا';
+        info.innerHTML = `${exam.course.name} - ${typeText} ساعت ${String(exam.exam.hour).padStart(2, '0')}:${String(exam.exam.minute).padStart(2, '0')}`;
+    } else {
+        const examList = upcomingExams.map(exam => {
+            const typeText = exam.type === 'today' ? 'امروز' : 'فردا';
+            return `${exam.course.name} (${typeText} ${String(exam.exam.hour).padStart(2, '0')}:${String(exam.exam.minute).padStart(2, '0')})`;
+        }).join(' | ');
+        info.innerHTML = examList;
+    }
+}
+
+// ========== ساخت جدول برنامه هفتگی ==========
+function renderScheduleTable() {
+    const tbody = document.getElementById('schedule-body');
+    if (!tbody) return;
+
+    tbody.innerHTML = '';
+
+    const todayIndex = getCurrentDayIndex();
+    const currentClass = getCurrentClass();
+    const dayNames = ['شنبه', 'یکشنبه', 'دوشنبه', 'سه شنبه', 'چهارشنبه', 'پنجشنبه', 'جمعه'];
+
+    courses.forEach(course => {
+        const schedule = parseSchedule(course.schedule);
+        if (!schedule) return;
+
+        const dayName = dayNames[schedule.dayIndex];
+        const tr = document.createElement('tr');
+
+        // هایلایت ردیف امروز
+        if (schedule.dayIndex === todayIndex) {
+            tr.classList.add('today-row');
+        }
+
+        // هایلایت کلاس در حال برگزاری
+        if (currentClass && course.name === currentClass.name && course.professor === currentClass.professor) {
+            tr.classList.add('current-class-row');
+        }
+
+        tr.innerHTML = `
+            <td>${dayName}</td>
+            <td>${schedule.startTime} تا ${schedule.endTime}</td>
+            <td>${course.name}</td>
+            <td>${course.professor}</td>
+            <td>${course.exam || '<span style="color:#aaa;">-</span>'}</td>
+        `;
+
+        tbody.appendChild(tr);
+    });
+}
+
+// ========== به‌روزرسانی همه ==========
+function updateAll() {
+    updateClock();
+    updateCurrentClassBox();
+    updateExamReminderBox();
+    renderScheduleTable();
+}
+
 // ========== اجرای اولیه ==========
 document.addEventListener('DOMContentLoaded', () => {
-    renderTable();
-    updateClock();
-    setInterval(updateClock, 1000);
+    updateAll();
+    setInterval(() => {
+        updateClock();
+        updateCurrentClassBox();
+        updateExamReminderBox();
+        // جدول هر دقیقه یک‌بار بازسازی شود تا هایلایت‌ها به‌روز شوند
+        const now = new Date();
+        if (now.getSeconds() === 0) renderScheduleTable();
+    }, 1000);
 });
