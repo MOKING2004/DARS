@@ -1,18 +1,20 @@
 /* ========== متغیرهای سراسری ========== */
 :root {
-    --primary: #1e3c72;
-    --primary-light: #2a5298;
-    --accent: #3b82f6;
-    --gold: #fbbf24;
-    --gold-dark: #f59e0b;
+    --gold: #d4af37;
+    --gold-light: #f0d060;
+    --gold-dark: #b8941f;
+    --gold-glow: rgba(212, 175, 55, 0.4);
     --text-dark: #0f172a;
     --text-medium: #334155;
     --text-light: #475569;
-    --bg-white: #ffffff;
-    --glass-bg: rgba(255, 255, 255, 0.5);
-    --glass-border: rgba(255, 255, 255, 0.6);
-    --shadow-glass: 0 8px 32px rgba(31, 38, 135, 0.08);
-    --shadow-hover: 0 12px 40px rgba(31, 38, 135, 0.15);
+    --bg-light: #ffffff;
+    --bg-dark: #000000;
+    --glass-light: rgba(255, 255, 255, 0.5);
+    --glass-dark: rgba(0, 0, 0, 0.5);
+    --glass-border-light: rgba(255, 255, 255, 0.6);
+    --glass-border-dark: rgba(255, 255, 255, 0.2);
+    --shadow-light: 0 8px 32px rgba(0, 0, 0, 0.08);
+    --shadow-dark: 0 8px 32px rgba(0, 0, 0, 0.4);
     --z-base: 0;
     --z-content: 1;
     --z-header: 10;
@@ -21,6 +23,27 @@
     --z-overlay: 1000;
     --transition-fast: 0.2s ease;
     --transition-medium: 0.3s ease;
+}
+
+/* ========== تنظیمات دارک مود ========== */
+:root {
+    --bg: var(--bg-light);
+    --text: var(--text-dark);
+    --text-secondary: var(--text-medium);
+    --glass-bg: var(--glass-light);
+    --glass-border: var(--glass-border-light);
+    --shadow: var(--shadow-light);
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg: var(--bg-dark);
+        --text: #f8fafc;
+        --text-secondary: #cbd5e1;
+        --glass-bg: var(--glass-dark);
+        --glass-border: var(--glass-border-dark);
+        --shadow: var(--shadow-dark);
+    }
 }
 
 /* ========== ریست و تنظیمات پایه ========== */
@@ -32,12 +55,13 @@
 }
 
 body {
-    background: var(--bg-white);
+    background: var(--bg);
     min-height: 100vh;
     padding: 20px;
     direction: rtl;
-    color: var(--text-dark);
+    color: var(--text);
     overflow-x: hidden;
+    transition: background 0.3s, color 0.3s;
 }
 
 /* ========== پس‌زمینه انیمیشنی نقطه‌های طلایی ========== */
@@ -54,9 +78,9 @@ body {
 
 .dot {
     position: absolute;
-    background: radial-gradient(circle, var(--gold) 0%, var(--gold-dark) 100%);
+    background: radial-gradient(circle, var(--gold-light) 0%, var(--gold-dark) 100%);
     border-radius: 50%;
-    box-shadow: 0 0 15px rgba(251, 191, 36, 0.5);
+    box-shadow: 0 0 15px var(--gold-glow);
     animation: floatDot 15s infinite ease-in-out;
     opacity: 0.4;
     will-change: transform, opacity;
@@ -92,14 +116,14 @@ body {
     -webkit-backdrop-filter: blur(15px);
     border: 1px solid var(--glass-border);
     border-radius: 20px;
-    box-shadow: var(--shadow-glass);
-    transition: box-shadow var(--transition-medium);
+    box-shadow: var(--shadow);
+    transition: box-shadow var(--transition-medium), background 0.3s, border-color 0.3s;
     position: relative;
     z-index: var(--z-content);
 }
 
 .glass-card:hover {
-    box-shadow: var(--shadow-hover);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
 }
 
 /* ========== نوتیفیکیشن‌ها ========== */
@@ -129,7 +153,8 @@ body {
 }
 
 .update-toast {
-    background: var(--accent);
+    background: var(--gold);
+    color: black;
     top: -100px;
 }
 
@@ -160,7 +185,7 @@ body {
     right: 0;
     bottom: 0;
     left: 0;
-    background: rgba(255, 255, 255, 0.7);
+    background: rgba(255, 255, 255, 0.4);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     display: flex;
@@ -180,7 +205,7 @@ body {
     font-size: 24px;
     font-weight: bold;
     margin-bottom: 25px;
-    color: var(--text-dark);
+    color: var(--text);
 }
 
 .input-group {
@@ -193,30 +218,31 @@ body {
     margin-bottom: 5px;
     font-size: 14px;
     font-weight: bold;
-    color: var(--text-medium);
+    color: var(--text-secondary);
 }
 
 .input-group input {
     width: 100%;
     padding: 10px 12px;
     border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.8);
-    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid var(--glass-border);
+    background: var(--glass-bg);
     font-size: 16px;
     outline: none;
+    color: var(--text);
     transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .input-group input:focus {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px var(--gold-glow);
 }
 
 .login-btn {
     width: 100%;
     padding: 12px;
-    background: var(--accent);
-    color: white;
+    background: var(--gold);
+    color: black;
     border: none;
     border-radius: 10px;
     font-size: 16px;
@@ -227,7 +253,7 @@ body {
 }
 
 .login-btn:hover {
-    background: #2563eb;
+    background: var(--gold-light);
     transform: translateY(-2px);
 }
 
@@ -271,8 +297,8 @@ body {
 }
 
 .user-button {
-    background: rgba(255, 255, 255, 0.6);
-    border: 1px solid rgba(255, 255, 255, 0.8);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
     border-radius: 10px;
     padding: 8px 12px;
     cursor: pointer;
@@ -281,12 +307,13 @@ body {
     gap: 8px;
     font-size: 15px;
     font-weight: bold;
-    color: var(--text-dark);
-    transition: background var(--transition-fast);
+    color: var(--text);
+    transition: background var(--transition-fast), border-color var(--transition-fast);
 }
 
 .user-button:hover {
-    background: rgba(255, 255, 255, 0.9);
+    background: var(--gold-light);
+    border-color: var(--gold);
 }
 
 .user-arrow {
@@ -302,11 +329,11 @@ body {
     position: absolute;
     top: 100%;
     left: 0;
-    background: rgba(255, 255, 255, 0.9);
+    background: var(--glass-bg);
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.8);
+    border: 1px solid var(--glass-border);
     border-radius: 10px;
-    box-shadow: var(--shadow-glass);
+    box-shadow: var(--shadow);
     z-index: var(--z-dropdown);
     min-width: 150px;
     padding: 5px;
@@ -347,11 +374,13 @@ body {
     font-size: 20px;
     font-weight: bold;
     letter-spacing: 1px;
+    color: var(--text);
 }
 
 .date {
     font-size: 13px;
     opacity: 0.8;
+    color: var(--text-secondary);
 }
 
 /* ========== باکس اصلی اطلاعات ========== */
@@ -362,21 +391,21 @@ body {
 
 .main-info-box .box-title {
     font-size: 16px;
-    color: var(--text-medium);
+    color: var(--text-secondary);
     margin-bottom: 5px;
 }
 
 .main-info-box .box-content {
     font-size: 18px;
     font-weight: bold;
-    color: var(--text-dark);
+    color: var(--text);
     line-height: 1.5;
 }
 
 /* ========== تب‌ها ========== */
 .tabs {
     display: flex;
-    background: rgba(255, 255, 255, 0.4);
+    background: var(--glass-bg);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     border-radius: 15px;
@@ -392,7 +421,7 @@ body {
     text-align: center;
     cursor: pointer;
     font-weight: bold;
-    color: var(--text-light);
+    color: var(--text-secondary);
     border-radius: 10px;
     background: transparent;
     border: none;
@@ -400,7 +429,8 @@ body {
 }
 
 .tab:hover {
-    background: rgba(255, 255, 255, 0.6);
+    background: var(--gold-light);
+    color: black;
 }
 
 .tab:active {
@@ -408,9 +438,9 @@ body {
 }
 
 .tab.active {
-    background: var(--accent);
-    color: white;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    background: var(--gold);
+    color: black;
+    box-shadow: 0 4px 10px var(--gold-glow);
 }
 
 .tab-content {
@@ -447,12 +477,12 @@ table {
 }
 
 th {
-    background: rgba(255, 255, 255, 0.7);
-    color: var(--text-dark);
+    background: var(--glass-bg);
+    color: var(--text);
     font-weight: bold;
     padding: 12px 10px;
     text-align: center;
-    border-bottom: 2px solid rgba(255, 255, 255, 0.9);
+    border-bottom: 2px solid var(--gold);
     white-space: nowrap;
     cursor: pointer;
     user-select: none;
@@ -460,35 +490,38 @@ th {
 }
 
 th:hover {
-    background: rgba(255, 255, 255, 0.9);
+    background: var(--gold-light);
+    color: black;
 }
 
 td {
     padding: 10px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+    border-bottom: 1px solid var(--glass-border);
     text-align: center;
     vertical-align: middle;
+    color: var(--text);
 }
 
 tr:hover td {
-    background: rgba(255, 255, 255, 0.6);
+    background: var(--gold-light);
+    color: black;
 }
 
 /* هایلایت کلاس امروز */
 tr.today-row td {
-    background: rgba(250, 204, 21, 0.35);
+    background: rgba(212, 175, 55, 0.3);
 }
 
 /* هایلایت کلاس در حال برگزاری */
 tr.current-class-row td {
-    background: rgba(59, 130, 246, 0.3);
+    background: rgba(212, 175, 55, 0.5);
     animation: pulse 2s infinite;
 }
 
 @keyframes pulse {
-    0% { box-shadow: inset 0 0 0 0 rgba(59, 130, 246, 0.4); }
-    70% { box-shadow: inset 0 0 0 10px rgba(59, 130, 246, 0); }
-    100% { box-shadow: inset 0 0 0 0 rgba(59, 130, 246, 0); }
+    0% { box-shadow: inset 0 0 0 0 var(--gold-glow); }
+    70% { box-shadow: inset 0 0 0 10px var(--gold-glow); }
+    100% { box-shadow: inset 0 0 0 0 var(--gold-glow); }
 }
 
 /* ========== فوتر ========== */
@@ -496,8 +529,8 @@ tr.current-class-row td {
     padding: 12px 20px;
     text-align: center;
     font-size: 14px;
-    color: var(--text-medium);
-    background: rgba(255, 255, 255, 0.4);
+    color: var(--text-secondary);
+    background: var(--glass-bg);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-radius: 15px;
