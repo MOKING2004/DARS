@@ -87,8 +87,7 @@ function getIranNow() {
 }
 
 function getIranDateForShamsi() {
-    // برای تاریخ شمسی، ساعت را با timeZone 'Asia/Tehran' محاسبه می‌کنیم اما به دلیل آفست +4.5، 
-    // یک ساعت اختلاف داریم؛ بنابراین تاریخ را با جبران یک ساعته می‌گیریم.
+    // جبران اختلاف یک ساعته نسبت به timeZone واقعی تهران
     return new Date(Date.now() + (IRAN_OFFSET_MS - 3.5 * 60 * 60 * 1000));
 }
 
@@ -434,6 +433,14 @@ function updateFooter() {
     }
 }
 
+// ========== به‌روزرسانی theme-color بر اساس دارک مود ==========
+function updateThemeColor() {
+    const metaThemeColor = document.getElementById('theme-color-meta');
+    if (!metaThemeColor) return;
+    const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    metaThemeColor.setAttribute('content', isDark ? '#000000' : '#ffffff');
+}
+
 // ========== نوتیفیکیشن‌ها ==========
 function showToast(message) {
     const toast = document.getElementById('toast');
@@ -520,6 +527,7 @@ function updateAll() {
     renderListTable();
     renderExamsTable();
     updateFooter();
+    updateThemeColor();
 }
 
 // ========== PWA ==========
@@ -550,6 +558,12 @@ document.addEventListener('DOMContentLoaded', () => {
     setupTabsAndSorting();
     setupUserMenu();
     registerServiceWorker();
+    updateThemeColor();
+
+    // گوش دادن به تغییرات دارک مود سیستم
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+        updateThemeColor();
+    });
 
     const savedUser = checkLogin();
     if (savedUser) {
@@ -569,6 +583,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 renderListTable();
                 renderExamsTable();
                 updateFooter();
+                updateThemeColor();
             }
         }
     }, 1000);
