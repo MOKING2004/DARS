@@ -1,0 +1,390 @@
+// ========== داده‌های دروس انتخابی ==========
+const courses = [
+    {
+        code: "99083",
+        name: "انس با قرآن کریم",
+        offerCode: "100011",
+        className: "",
+        professor: "محمدحسن مقصودی گودرزی",
+        schedule: "دوشنبه از 16:30 تا 18:00",
+        exam: "1405/10/14 از 12:45 تا 13:45",
+        validity: "معتبر",
+        gender: "مرد",
+        fee: 0,
+        currency: "IRR-ریال",
+        provider: "گروه آموزشي دروس عمومي",
+        period: "انتخاب واحد",
+        theoreticalUnits: 1,
+        practicalUnits: 0,
+        presentationType: "حضوري",
+        deleteStatus: "-",
+        studentStatus: "عادي",
+        takeStatus: "عادي",
+        majorStatus: "عادي",
+        theoreticalHours: 32,
+        practicalHours: 0
+    },
+    {
+        code: "99091",
+        name: "زبان انگلیسی عمومی-ترکیبی(2)",
+        offerCode: "5110",
+        className: "",
+        professor: "مريم بيرجندي",
+        schedule: "يكشنبه از 19:30 تا 20:15",
+        exam: "1405/11/02 از 13:00 تا 14:00",
+        validity: "معتبر",
+        gender: "",
+        fee: 5706500,
+        currency: "IRR-ریال",
+        provider: "گروه آموزشي زبان هاي خارجي",
+        period: "انتخاب واحد",
+        theoreticalUnits: 1,
+        practicalUnits: 0,
+        presentationType: "ارائه ترکیبی در واحد منتخب",
+        deleteStatus: "-",
+        studentStatus: "عادي",
+        takeStatus: "عادي",
+        majorStatus: "عادي",
+        theoreticalHours: 16,
+        practicalHours: 0
+    },
+    {
+        code: "1068124206",
+        name: "حقوق مدنی (3) کلیات قراردادها",
+        offerCode: "41424444",
+        className: "",
+        professor: "عبدالمحمد کردی",
+        schedule: "سه شنبه از 07:30 تا 09:45",
+        exam: "1405/10/19 از 10:30 تا 12:00",
+        validity: "معتبر",
+        gender: "",
+        fee: 17119500,
+        currency: "IRR-ریال",
+        provider: "گروه آموزشي حقوق",
+        period: "انتخاب واحد",
+        theoreticalUnits: 3,
+        practicalUnits: 0,
+        presentationType: "حضوري",
+        deleteStatus: "-",
+        studentStatus: "عادي",
+        takeStatus: "عادي",
+        majorStatus: "عادي",
+        theoreticalHours: 48,
+        practicalHours: 0
+    },
+    {
+        code: "1068165616",
+        name: "حقوق تجارت (3) اسناد تجاری",
+        offerCode: "41424447",
+        className: "",
+        professor: "حسین شعبان پور",
+        schedule: "چهارشنبه از 13:00 تا 14:30",
+        exam: "1405/10/15 از 10:30 تا 12:00",
+        validity: "معتبر",
+        gender: "",
+        fee: 11413000,
+        currency: "IRR-ریال",
+        provider: "گروه آموزشي حقوق",
+        period: "انتخاب واحد",
+        theoreticalUnits: 2,
+        practicalUnits: 0,
+        presentationType: "حضوري",
+        deleteStatus: "-",
+        studentStatus: "عادي",
+        takeStatus: "عادي",
+        majorStatus: "عادي",
+        theoreticalHours: 32,
+        practicalHours: 0
+    },
+    {
+        code: "1068105717",
+        name: "اصول فقه (1)",
+        offerCode: "41424452",
+        className: "",
+        professor: "محمد گودرزی",
+        schedule: "يكشنبه از 08:00 تا 09:30",
+        exam: "1405/10/13 از 10:30 تا 12:00",
+        validity: "معتبر",
+        gender: "",
+        fee: 11413000,
+        currency: "IRR-ریال",
+        provider: "گروه آموزشي حقوق",
+        period: "انتخاب واحد",
+        theoreticalUnits: 2,
+        practicalUnits: 0,
+        presentationType: "حضوري",
+        deleteStatus: "-",
+        studentStatus: "عادي",
+        takeStatus: "عادي",
+        majorStatus: "عادي",
+        theoreticalHours: 32,
+        practicalHours: 0
+    },
+    {
+        code: "1068124012",
+        name: "حقوق سازمان‌های بین‌المللی",
+        offerCode: "41424465",
+        className: "",
+        professor: "رضا کرمی",
+        schedule: "يكشنبه از 10:00 تا 11:30",
+        exam: "1405/10/20 از 08:30 تا 10:00",
+        validity: "معتبر",
+        gender: "",
+        fee: 11413000,
+        currency: "IRR-ریال",
+        provider: "گروه آموزشي حقوق",
+        period: "انتخاب واحد",
+        theoreticalUnits: 2,
+        practicalUnits: 0,
+        presentationType: "حضوري",
+        deleteStatus: "-",
+        studentStatus: "عادي",
+        takeStatus: "عادي",
+        majorStatus: "عادي",
+        theoreticalHours: 32,
+        practicalHours: 0
+    },
+    {
+        code: "1068110186",
+        name: "آیین دادرسی مدنی (1)",
+        offerCode: "41424471",
+        className: "",
+        professor: "محمدصفر نوروزی",
+        schedule: "دوشنبه از 14:45 تا 16:15",
+        exam: "1405/10/14 از 08:30 تا 10:00",
+        validity: "معتبر",
+        gender: "",
+        fee: 11413000,
+        currency: "IRR-ریال",
+        provider: "گروه آموزشي حقوق",
+        period: "انتخاب واحد",
+        theoreticalUnits: 2,
+        practicalUnits: 0,
+        presentationType: "حضوري",
+        deleteStatus: "-",
+        studentStatus: "عادي",
+        takeStatus: "عادي",
+        majorStatus: "عادي",
+        theoreticalHours: 32,
+        practicalHours: 0
+    },
+    {
+        code: "90763",
+        name: "تفسیر موضوعی قرآن",
+        offerCode: "41424645",
+        className: "",
+        professor: "مجتبی بیرانوند",
+        schedule: "يكشنبه از 13:00 تا 14:30",
+        exam: "1405/10/13 از 12:45 تا 13:45",
+        validity: "معتبر",
+        gender: "مرد",
+        fee: 11413000,
+        currency: "IRR-ریال",
+        provider: "گروه آموزشي دروس عمومي",
+        period: "انتخاب واحد",
+        theoreticalUnits: 2,
+        practicalUnits: 0,
+        presentationType: "حضوري",
+        deleteStatus: "-",
+        studentStatus: "عادي",
+        takeStatus: "عادي",
+        majorStatus: "عادي",
+        theoreticalHours: 32,
+        practicalHours: 0
+    },
+    {
+        code: "1068171225",
+        name: "حقوق بین المللی عمومی (3) روش های حل و فصل مسالمت آمیز اختلافات",
+        offerCode: "41424814",
+        className: "",
+        professor: "مهدی یوسف وند",
+        schedule: "يكشنبه از 14:45 تا 16:15",
+        exam: "1405/10/21 از 08:30 تا 10:00",
+        validity: "معتبر",
+        gender: "",
+        fee: 11413000,
+        currency: "IRR-ریال",
+        provider: "گروه آموزشي حقوق",
+        period: "انتخاب واحد",
+        theoreticalUnits: 2,
+        practicalUnits: 0,
+        presentationType: "حضوري",
+        deleteStatus: "-",
+        studentStatus: "عادي",
+        takeStatus: "عادي",
+        majorStatus: "عادي",
+        theoreticalHours: 32,
+        practicalHours: 0
+    },
+    {
+        code: "1068123782",
+        name: "حقوق جزای عمومی (2)",
+        offerCode: "41424829",
+        className: "",
+        professor: "رضا محبي فر",
+        schedule: "يكشنبه از 16:30 تا 18:00",
+        exam: "1405/10/22 از 08:30 تا 10:00",
+        validity: "معتبر",
+        gender: "",
+        fee: 11413000,
+        currency: "IRR-ریال",
+        provider: "گروه آموزشي حقوق",
+        period: "انتخاب واحد",
+        theoreticalUnits: 2,
+        practicalUnits: 0,
+        presentationType: "حضوري",
+        deleteStatus: "-",
+        studentStatus: "عادي",
+        takeStatus: "عادي",
+        majorStatus: "عادي",
+        theoreticalHours: 32,
+        practicalHours: 0
+    },
+    {
+        code: "99079",
+        name: "تربیت بدنی",
+        offerCode: "143",
+        className: "",
+        professor: "وحيد ترک ملک",
+        schedule: "شنبه از 13:00 تا 14:30",
+        exam: "1405/10/10 از 10:30 تا 12:00",
+        validity: "معتبر",
+        gender: "مرد",
+        fee: 7014450,
+        currency: "IRR-ریال",
+        provider: "گروه آموزشي تربيت بدني (علوم ورزشي)",
+        period: "انتخاب واحد",
+        theoreticalUnits: 0.5,
+        practicalUnits: 0.5,
+        presentationType: "حضوري",
+        deleteStatus: "-",
+        studentStatus: "عادي",
+        takeStatus: "عادي",
+        majorStatus: "عادي",
+        theoreticalHours: 8,
+        practicalHours: 16
+    },
+    {
+        code: "99062",
+        name: "ورزش 1",
+        offerCode: "151",
+        className: "",
+        professor: "حسین ساکی",
+        schedule: "شنبه از 14:45 تا 16:15",
+        exam: "",
+        validity: "معتبر",
+        gender: "مرد",
+        fee: 8322400,
+        currency: "IRR-ریال",
+        provider: "گروه آموزشي تربيت بدني (علوم ورزشي)",
+        period: "انتخاب واحد",
+        theoreticalUnits: 0,
+        practicalUnits: 1,
+        presentationType: "حضوري",
+        deleteStatus: "-",
+        studentStatus: "عادي",
+        takeStatus: "عادي",
+        majorStatus: "عادي",
+        theoreticalHours: 0,
+        practicalHours: 32
+    },
+    {
+        code: "99092",
+        name: "زبان انگلیسی عمومی-ترکیبی(3)",
+        offerCode: "5115",
+        className: "",
+        professor: "سينا کسرائي",
+        schedule: "شنبه از 19:15 تا 20:00",
+        exam: "1405/10/25 از 13:00 تا 14:00",
+        validity: "معتبر",
+        gender: "",
+        fee: 5706500,
+        currency: "IRR-ریال",
+        provider: "گروه آموزشي زبان هاي خارجي",
+        period: "انتخاب واحد",
+        theoreticalUnits: 1,
+        practicalUnits: 0,
+        presentationType: "ارائه ترکیبی در واحد منتخب",
+        deleteStatus: "-",
+        studentStatus: "عادي",
+        takeStatus: "عادي",
+        majorStatus: "عادي",
+        theoreticalHours: 16,
+        practicalHours: 0
+    }
+];
+
+// ========== تابع نمایش جدول ==========
+function renderTable() {
+    const tbody = document.getElementById('table-body');
+    if (!tbody) return;
+
+    tbody.innerHTML = '';
+
+    courses.forEach((course, index) => {
+        const tr = document.createElement('tr');
+
+        // ساخت سلول‌ها
+        tr.innerHTML = `
+            <td>${index + 1}</td>
+            <td>${course.code}</td>
+            <td style="text-align: right;">${course.name}</td>
+            <td>${course.offerCode}</td>
+            <td style="text-align: right;">${course.professor}</td>
+            <td>${course.schedule}</td>
+            <td>${course.exam || '<span class="empty-cell">-</span>'}</td>
+            <td><span class="status-badge valid">${course.validity}</span></td>
+            <td>${course.gender || '<span class="empty-cell">-</span>'}</td>
+            <td class="fee">${course.fee.toLocaleString('fa-IR')}</td>
+            <td>${course.currency}</td>
+            <td>${course.provider}</td>
+            <td>${course.period}</td>
+            <td>${course.theoreticalUnits}</td>
+            <td>${course.practicalUnits}</td>
+            <td>${course.presentationType}</td>
+            <td>${course.deleteStatus}</td>
+            <td>${course.studentStatus}</td>
+            <td>${course.takeStatus}</td>
+            <td>${course.majorStatus}</td>
+            <td>${course.theoreticalHours}</td>
+            <td>${course.practicalHours}</td>
+        `;
+
+        tbody.appendChild(tr);
+    });
+}
+
+// ========== تابع به‌روزرسانی ساعت و تاریخ ==========
+function updateClock() {
+    const now = new Date();
+    const clockEl = document.getElementById('clock');
+    const dateEl = document.getElementById('date');
+
+    if (!clockEl || !dateEl) return;
+
+    const optionsTime = {
+        timeZone: 'Asia/Tehran',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false
+    };
+
+    const optionsDate = {
+        timeZone: 'Asia/Tehran',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        weekday: 'long'
+    };
+
+    clockEl.textContent = now.toLocaleTimeString('fa-IR', optionsTime);
+    dateEl.textContent = now.toLocaleDateString('fa-IR', optionsDate);
+}
+
+// ========== اجرای اولیه ==========
+document.addEventListener('DOMContentLoaded', () => {
+    renderTable();
+    updateClock();
+    setInterval(updateClock, 1000);
+});
