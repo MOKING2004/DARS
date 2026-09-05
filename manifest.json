@@ -2,14 +2,16 @@
     "name": "پنل دانشجو ترم ۳",
     "short_name": "درس‌ها",
     "description": "برنامه هفتگی، کلاس‌ها و امتحانات دانشجو",
+    "id": "./",
     "start_url": "./index.html",
     "scope": "./",
     "display": "standalone",
     "orientation": "portrait",
     "background_color": "#ffffff",
-    "theme_color": "#1e3c72",
+    "theme_color": "#ffffff",
     "lang": "fa",
     "dir": "rtl",
+    "categories": ["education", "productivity"],
     "icons": [
         {
             "src": "icon.svg",
@@ -23,5 +25,18 @@
             "type": "image/svg+xml",
             "purpose": "maskable"
         }
-    ]
+    ],
+    "shortcuts": [
+        {
+            "name": "برنامه هفتگی",
+            "url": "./index.html?tab=weekly",
+            "description": "مشاهده برنامه هفتگی کلاس‌ها"
+        },
+        {
+            "name": "امتحانات",
+            "url": "./index.html?tab=exams",
+            "description": "مشاهده برنامه امتحانات"
+        }
+    ],
+    "display_override": ["window-controls-overlay", "standalone"]
 }
