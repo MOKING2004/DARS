@@ -1,4 +1,4 @@
-// ========== داده‌های دقیق دروس ==========
+// ========== داده‌های دقیق دروس (با واحد) ==========
 const courses = [
     {
         name: "تربیت بدنی",
@@ -93,21 +93,222 @@ const courses = [
     }
 ];
 
-// ========== بقیه توابع (بدون تغییر از نسخه قبلی) ==========
-// ... (توابع parseSchedule, parseExamDate, getIranNow, ...)
+// ========== توابع کمکی (با اصلاح زمان) ==========
+
+// دریافت زمان فعلی تهران به‌صورت Date جابه‌جا شده (UTC+3:30)
+function getIranNow() {
+    const now = new Date(); // زمان UTC
+    const tehranOffset = 3.5 * 60 * 60 * 1000; // 3 ساعت و نیم به میلی‌ثانیه
+    return new Date(now.getTime() + tehranOffset);
+}
+
+// دریافت ایندکس روز هفته (شنبه=0، یکشنبه=1، ...)
+function getCurrentDayIndex() {
+    const tehranNow = getIranNow();
+    const utcDay = tehranNow.getUTCDay(); // 0=Sunday, 1=Monday, ..., 6=Saturday
+    // تبدیل به ایندکس ما: شنبه=0، یکشنبه=1، دوشنبه=2، ...
+    const map = [1, 2, 3, 4, 5, 6, 0]; // Sunday->1, Monday->2, ..., Saturday->0
+    return map[utcDay];
+}
+
+// دریافت زمان فعلی به‌صورت "HH:MM"
+function getCurrentTimeString() {
+    const tehranNow = getIranNow();
+    const hours = String(tehranNow.getUTCHours()).padStart(2, '0');
+    const minutes = String(tehranNow.getUTCMinutes()).padStart(2, '0');
+    return `${hours}:${minutes}`;
+}
+
+// تبدیل زمان "HH:MM" به دقیقه
+function timeToMinutes(timeStr) {
+    const [h, m] = timeStr.split(':').map(Number);
+    return h * 60 + m;
+}
+
+// بررسی اینکه زمان فعلی در بازه باشد
+function isTimeInRange(current, start, end) {
+    const c = timeToMinutes(current);
+    const s = timeToMinutes(start);
+    const e = timeToMinutes(end);
+    return c >= s && c <= e;
+}
+
+// دریافت تاریخ شمسی امروز (با تقویم فارسی و timeZone تهران)
+function getCurrentShamsiDate() {
+    const now = new Date();
+    const formatter = new Intl.DateTimeFormat('en-US-u-ca-persian', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        timeZone: 'Asia/Tehran'
+    });
+    const parts = formatter.formatToParts(now);
+    const get = (type) => Number(parts.find(p => p.type === type)?.value);
+    return { year: get('year'), month: get('month'), day: get('day') };
+}
+
+// دریافت تاریخ شمسی فردا
+function getTomorrowShamsiDate() {
+    const now = new Date();
+    const tomorrow = new Date(now);
+    tomorrow.setDate(now.getDate() + 1);
+    const formatter = new Intl.DateTimeFormat('en-US-u-ca-persian', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        timeZone: 'Asia/Tehran'
+    });
+    const parts = formatter.formatToParts(tomorrow);
+    const get = (type) => Number(parts.find(p => p.type === type)?.value);
+    return { year: get('year'), month: get('month'), day: get('day') };
+}
+
+// ========== توابع تجزیه ==========
+function parseSchedule(scheduleStr) {
+    const parts = scheduleStr.split(' از ');
+    if (parts.length < 2) return null;
+    const dayPart = parts[0].trim();
+    const timePart = parts[1].trim();
+    const times = timePart.split(' تا ');
+    if (times.length < 2) return null;
+    const startTime = times[0].trim();
+    const endTime = times[1].trim();
+    const dayMap = {
+        'شنبه': 0,
+        'یکشنبه': 1,
+        'دوشنبه': 2,
+        'سه شنبه': 3,
+        'چهارشنبه': 4,
+        'پنجشنبه': 5,
+        'جمعه': 6
+    };
+    const dayIndex = dayMap[dayPart];
+    if (dayIndex === undefined) return null;
+    return { dayIndex, startTime, endTime };
+}
+
+function parseExamDate(examStr) {
+    if (!examStr) return null;
+    const parts = examStr.split(' از ');
+    if (parts.length < 2) return null;
+    const datePart = parts[0].trim(); // "1405/10/14"
+    const timePart = parts[1].trim(); // "12:45 تا 13:45"
+    const examTime = timePart.split(' تا ')[0].trim(); // "12:45"
+    const [year, month, day] = datePart.split('/').map(Number);
+    const [hour, minute] = examTime.split(':').map(Number);
+    return { year, month, day, hour, minute };
+}
+
+// ========== تشخیص کلاس در حال برگزاری ==========
+function getCurrentClass() {
+    const currentDay = getCurrentDayIndex();
+    const currentTime = getCurrentTimeString();
+    for (const course of courses) {
+        const schedule = parseSchedule(course.schedule);
+        if (schedule && schedule.dayIndex === currentDay && isTimeInRange(currentTime, schedule.startTime, schedule.endTime)) {
+            return course;
+        }
+    }
+    return null;
+}
+
+// ========== تشخیص امتحان‌های پیش رو ==========
+function getUpcomingExams() {
+    const today = getCurrentShamsiDate();
+    const tomorrow = getTomorrowShamsiDate();
+    const currentTime = getCurrentTimeString();
+    const upcoming = [];
+    for (const course of courses) {
+        if (!course.exam) continue;
+        const exam = parseExamDate(course.exam);
+        if (!exam) continue;
+        const examTimeStr = `${String(exam.hour).padStart(2, '0')}:${String(exam.minute).padStart(2, '0')}`;
+        const examDate = { year: exam.year, month: exam.month, day: exam.day };
+        if (examDate.year === tomorrow.year && examDate.month === tomorrow.month && examDate.day === tomorrow.day) {
+            upcoming.push({ course, exam, type: 'tomorrow' });
+        } else if (examDate.year === today.year && examDate.month === today.month && examDate.day === today.day) {
+            if (currentTime < examTimeStr) {
+                upcoming.push({ course, exam, type: 'today' });
+            }
+        }
+    }
+    return upcoming;
+}
+
+// ========== نمایش ساعت و تاریخ ==========
+function updateClock() {
+    const now = new Date();
+    const clockEl = document.getElementById('clock');
+    const dateEl = document.getElementById('date');
+    if (!clockEl || !dateEl) return;
+
+    // نمایش ساعت با timeZone تهران و فرمت فارسی
+    const timeFormatter = new Intl.DateTimeFormat('fa-IR', {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false,
+        timeZone: 'Asia/Tehran'
+    });
+    const dateFormatter = new Intl.DateTimeFormat('fa-IR', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        weekday: 'long',
+        timeZone: 'Asia/Tehran'
+    });
+
+    clockEl.textContent = timeFormatter.format(now);
+    dateEl.textContent = dateFormatter.format(now);
+}
+
+// ========== به‌روزرسانی باکس کلاس جاری ==========
+function updateCurrentClassBox() {
+    const box = document.getElementById('current-class-box');
+    const info = document.getElementById('current-class-info');
+    if (!box || !info) return;
+    const currentClass = getCurrentClass();
+    if (currentClass) {
+        box.classList.remove('empty');
+        info.innerHTML = `${currentClass.name} - ${currentClass.professor}`;
+    } else {
+        box.classList.add('empty');
+        info.textContent = 'کلاسی در حال برگزاری نیست';
+    }
+}
+
+// ========== به‌روزرسانی باکس امتحان‌های نزدیک ==========
+function updateExamReminderBox() {
+    const box = document.getElementById('exam-reminder-box');
+    const info = document.getElementById('exam-reminder-info');
+    if (!box || !info) return;
+    const upcomingExams = getUpcomingExams();
+    if (upcomingExams.length === 0) {
+        info.textContent = 'امتحانی نزدیک نیست';
+        return;
+    }
+    if (upcomingExams.length === 1) {
+        const exam = upcomingExams[0];
+        const typeText = exam.type === 'today' ? 'امروز' : 'فردا';
+        info.innerHTML = `${exam.course.name} - ${typeText} ساعت ${String(exam.exam.hour).padStart(2, '0')}:${String(exam.exam.minute).padStart(2, '0')}`;
+    } else {
+        const examList = upcomingExams.map(exam => {
+            const typeText = exam.type === 'today' ? 'امروز' : 'فردا';
+            return `${exam.course.name} (${typeText} ${String(exam.exam.hour).padStart(2, '0')}:${String(exam.exam.minute).padStart(2, '0')})`;
+        }).join(' | ');
+        info.innerHTML = examList;
+    }
+}
 
 // ========== ساخت جدول برنامه هفتگی ==========
 function renderScheduleTable() {
     const tbody = document.getElementById('schedule-body');
     if (!tbody) return;
-
     tbody.innerHTML = '';
-
     const todayIndex = getCurrentDayIndex();
     const currentClass = getCurrentClass();
     const dayNames = ['شنبه', 'یکشنبه', 'دوشنبه', 'سه شنبه', 'چهارشنبه', 'پنجشنبه', 'جمعه'];
 
-    // مرتب‌سازی بر اساس روز و زمان
     const sortedCourses = [...courses].sort((a, b) => {
         const sa = parseSchedule(a.schedule);
         const sb = parseSchedule(b.schedule);
@@ -119,15 +320,12 @@ function renderScheduleTable() {
     sortedCourses.forEach(course => {
         const schedule = parseSchedule(course.schedule);
         if (!schedule) return;
-
         const dayName = dayNames[schedule.dayIndex];
         const tr = document.createElement('tr');
-
         if (schedule.dayIndex === todayIndex) tr.classList.add('today-row');
         if (currentClass && course.name === currentClass.name && course.professor === currentClass.professor) {
             tr.classList.add('current-class-row');
         }
-
         tr.innerHTML = `
             <td>${dayName}</td>
             <td>${schedule.startTime} تا ${schedule.endTime}</td>
@@ -143,15 +341,12 @@ function renderScheduleTable() {
 function renderListTable() {
     const tbody = document.getElementById('list-body');
     if (!tbody) return;
-
     tbody.innerHTML = '';
-
     courses.forEach((course, index) => {
         const schedule = parseSchedule(course.schedule);
         const dayNames = ['شنبه', 'یکشنبه', 'دوشنبه', 'سه شنبه', 'چهارشنبه', 'پنجشنبه', 'جمعه'];
         const dayName = schedule ? dayNames[schedule.dayIndex] : 'نامشخص';
         const timeStr = schedule ? `${schedule.startTime} تا ${schedule.endTime}` : 'نامشخص';
-
         const tr = document.createElement('tr');
         tr.innerHTML = `
             <td>${index + 1}</td>
@@ -165,5 +360,125 @@ function renderListTable() {
     });
 }
 
-// ========== اجرای اولیه (بدون تغییر) ==========
-// ...
+// ========== تب‌ها ==========
+function setupTabs() {
+    const tabs = document.querySelectorAll('.tab');
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            tabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            const target = tab.getAttribute('data-tab');
+            if (target === 'weekly') {
+                document.getElementById('weekly-tab').classList.add('active');
+            } else {
+                document.getElementById('list-tab').classList.add('active');
+            }
+        });
+    });
+}
+
+// ========== توابع امن localStorage ==========
+function safeLocalStorage(action, key, value = null) {
+    try {
+        if (action === 'set') localStorage.setItem(key, value);
+        else if (action === 'get') return localStorage.getItem(key);
+        else if (action === 'remove') localStorage.removeItem(key);
+    } catch (e) {
+        console.warn('خطا در localStorage:', e);
+        return null;
+    }
+}
+
+// ========== نمایش نوتیفیکیشن ==========
+function showToast(message) {
+    const toast = document.getElementById('toast');
+    if (!toast) return;
+    toast.textContent = message;
+    toast.classList.add('show');
+    clearTimeout(toast._timeout);
+    toast._timeout = setTimeout(() => {
+        toast.classList.remove('show');
+    }, 3000);
+}
+
+// ========== لاگین ==========
+function checkLogin() {
+    const saved = safeLocalStorage('get', 'mok_logged_in');
+    return saved === 'true';
+}
+
+function showMainContent() {
+    document.getElementById('login-overlay').classList.add('hidden');
+    document.getElementById('main-content').classList.remove('hidden');
+    updateAll();
+}
+
+function showLogin() {
+    document.getElementById('login-overlay').classList.remove('hidden');
+    document.getElementById('main-content').classList.add('hidden');
+}
+
+function handleLogin(event) {
+    event.preventDefault();
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value.trim();
+    const errorEl = document.getElementById('login-error');
+
+    if (username !== 'MOK') {
+        showToast('❌ نام کاربری اشتباه است');
+        errorEl.textContent = 'نام کاربری اشتباه است';
+        return;
+    }
+    if (password !== '13241234') {
+        showToast('❌ رمز عبور اشتباه است');
+        errorEl.textContent = 'رمز عبور اشتباه است';
+        return;
+    }
+    safeLocalStorage('set', 'mok_logged_in', 'true');
+    errorEl.textContent = '';
+    document.getElementById('login-form').reset();
+    showMainContent();
+}
+
+function handleLogout() {
+    safeLocalStorage('remove', 'mok_logged_in');
+    showLogin();
+}
+
+// ========== به‌روزرسانی همه ==========
+function updateAll() {
+    updateClock();
+    updateCurrentClassBox();
+    updateExamReminderBox();
+    renderScheduleTable();
+    renderListTable();
+}
+
+// ========== اجرای اولیه ==========
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('login-form').addEventListener('submit', handleLogin);
+    document.getElementById('logout-btn').addEventListener('click', handleLogout);
+    setupTabs();
+
+    if (checkLogin()) {
+        showMainContent();
+    } else {
+        showLogin();
+    }
+
+    setInterval(() => {
+        if (checkLogin()) {
+            updateClock();
+            updateCurrentClassBox();
+            updateExamReminderBox();
+            const now = new Date();
+            if (now.getSeconds() % 5 === 0) {
+                renderScheduleTable();
+                renderListTable();
+            }
+        }
+    }, 1000);
+});
