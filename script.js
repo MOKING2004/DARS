@@ -19,7 +19,7 @@ const users = {
         ]
     },
     NARGES: {
-        password: '13861234',
+        password: '13841234',
         courses: [
             { name: "حقوق جزا عمومی 2", professor: "آرمان", schedule: "شنبه از 13:00 تا 14:30", exam: "1405/10/22 از 00:00 تا 00:00", units: "—" },
             { name: "حقوق بین الملل عمومی 3", professor: "مهدی یوسفوند", schedule: "شنبه از 14:45 تا 16:15", exam: "1405/10/21 از 00:00 تا 00:00", units: "—" },
