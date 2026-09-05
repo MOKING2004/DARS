@@ -405,6 +405,21 @@ function safeLocalStorage(action, key, value = null) {
     }
 }
 
+// ========== نمایش نوتیفیکیشن ==========
+function showToast(message) {
+    const toast = document.getElementById('toast');
+    if (!toast) return;
+
+    toast.textContent = message;
+    toast.classList.add('show');
+
+    // پنهان کردن بعد از ۳ ثانیه
+    clearTimeout(toast._timeout);
+    toast._timeout = setTimeout(() => {
+        toast.classList.remove('show');
+    }, 3000);
+}
+
 // ========== لاگین ==========
 function checkLogin() {
     const saved = safeLocalStorage('get', 'mok_logged_in');
@@ -428,14 +443,23 @@ function handleLogin(event) {
     const password = document.getElementById('password').value.trim();
     const errorEl = document.getElementById('login-error');
 
-    if (username === 'MOK' && password === '13241234') {
-        safeLocalStorage('set', 'mok_logged_in', 'true');
-        errorEl.textContent = '';
-        document.getElementById('login-form').reset();
-        showMainContent();
-    } else {
-        errorEl.textContent = 'نام کاربری یا رمز عبور اشتباه است';
+    if (username !== 'MOK') {
+        showToast('❌ نام کاربری اشتباه است');
+        errorEl.textContent = 'نام کاربری اشتباه است';
+        return;
     }
+
+    if (password !== '13241234') {
+        showToast('❌ رمز عبور اشتباه است');
+        errorEl.textContent = 'رمز عبور اشتباه است';
+        return;
+    }
+
+    // ورود موفق
+    safeLocalStorage('set', 'mok_logged_in', 'true');
+    errorEl.textContent = '';
+    document.getElementById('login-form').reset();
+    showMainContent();
 }
 
 function handleLogout() {
