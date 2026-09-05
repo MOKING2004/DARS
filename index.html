@@ -3,55 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>پنل دروس انتخابی - بخش اول</title>
-    <!-- اتصال به فایل استایل -->
+    <title>ترم ۳ - برنامه هفتگی</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="panel">
+        <!-- هدر با عنوان ترم و ساعت -->
         <div class="panel-header">
-            <div class="panel-title">📚 دروس انتخابی</div>
+            <div class="panel-title">📅 ترم ۳ - برنامه هفتگی</div>
             <div class="clock-container">
                 <div class="clock" id="clock">--:--:--</div>
                 <div class="date" id="date">---</div>
             </div>
         </div>
+
+        <!-- باکس کلاس در حال برگزاری -->
+        <div class="current-class-box" id="current-class-box">
+            <div class="box-title">🕒 الان باید در این کلاس باشی:</div>
+            <div class="box-content" id="current-class-info">
+                کلاسی در حال برگزاری نیست
+            </div>
+        </div>
+
+        <!-- باکس امتحان‌های نزدیک -->
+        <div class="exam-reminder-box" id="exam-reminder-box">
+            <div class="box-title">📝 امتحان‌های پیش رو:</div>
+            <div class="box-content" id="exam-reminder-info">
+                امتحانی نزدیک نیست
+            </div>
+        </div>
+
+        <!-- جدول برنامه هفتگی -->
         <div class="table-wrapper">
-            <table id="courses-table">
+            <table id="weekly-schedule-table">
                 <thead>
                     <tr>
-                        <th>ردیف</th>
-                        <th>کد درس</th>
+                        <th>روز</th>
+                        <th>زمان کلاس</th>
                         <th>نام درس</th>
-                        <th>کد ارائه</th>
                         <th>نام استاد</th>
-                        <th>زمان‌بندی ارائه</th>
-                        <th>زمان‌بندی امتحان</th>
-                        <th>وضعیت اعتبار</th>
-                        <th>جنسیت</th>
-                        <th>شهریه (ریال)</th>
-                        <th>ارز</th>
-                        <th>ارائه دهنده</th>
-                        <th>بازه اخذ</th>
-                        <th>واحد نظری</th>
-                        <th>واحد عملی</th>
-                        <th>نوع ارائه</th>
-                        <th>وضعیت حذف</th>
-                        <th>وضعیت درس دانشجو</th>
-                        <th>وضعیت اخذ</th>
-                        <th>وضعیت در رشته</th>
-                        <th>ساعت نظری</th>
-                        <th>ساعت عملی</th>
+                        <th>زمان امتحان</th>
                     </tr>
                 </thead>
-                <tbody id="table-body">
+                <tbody id="schedule-body">
                     <!-- ردیف‌ها با جاوااسکریپت ساخته می‌شوند -->
                 </tbody>
             </table>
         </div>
     </div>
 
-    <!-- اتصال به فایل جاوااسکریپت -->
     <script src="script.js"></script>
 </body>
 </html>
