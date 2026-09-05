@@ -15,6 +15,7 @@
     --glass-border-dark: rgba(255, 255, 255, 0.2);
     --shadow-light: 0 8px 32px rgba(0, 0, 0, 0.08);
     --shadow-dark: 0 8px 32px rgba(0, 0, 0, 0.4);
+    --icon-color: #000000; /* آیکون‌ها در حالت روشن مشکی */
     --z-base: 0;
     --z-content: 1;
     --z-header: 10;
@@ -25,16 +26,6 @@
     --transition-medium: 0.3s ease;
 }
 
-/* ========== تنظیمات دارک مود ========== */
-:root {
-    --bg: var(--bg-light);
-    --text: var(--text-dark);
-    --text-secondary: var(--text-medium);
-    --glass-bg: var(--glass-light);
-    --glass-border: var(--glass-border-light);
-    --shadow: var(--shadow-light);
-}
-
 @media (prefers-color-scheme: dark) {
     :root {
         --bg: var(--bg-dark);
@@ -43,7 +34,17 @@
         --glass-bg: var(--glass-dark);
         --glass-border: var(--glass-border-dark);
         --shadow: var(--shadow-dark);
+        --icon-color: var(--gold); /* آیکون‌ها در حالت تاریک طلایی */
     }
+}
+
+:root {
+    --bg: var(--bg-light);
+    --text: var(--text-dark);
+    --text-secondary: var(--text-medium);
+    --glass-bg: var(--glass-light);
+    --glass-border: var(--glass-border-light);
+    --shadow: var(--shadow-light);
 }
 
 /* ========== ریست و تنظیمات پایه ========== */
@@ -126,6 +127,26 @@ body {
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
 }
 
+/* ========== آیکون‌ها ========== */
+.icon {
+    width: 20px;
+    height: 20px;
+    stroke: var(--icon-color);
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    vertical-align: middle;
+    transition: stroke 0.3s;
+}
+
+/* در عناصری که پس‌زمینه طلایی دارند، آیکون مشکی می‌شود */
+.login-btn .icon,
+.tab.active .icon,
+.user-button:hover .icon {
+    stroke: #000000;
+}
+
 /* ========== نوتیفیکیشن‌ها ========== */
 .toast {
     position: fixed;
@@ -206,6 +227,10 @@ body {
     font-weight: bold;
     margin-bottom: 25px;
     color: var(--text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
 }
 
 .input-group {
@@ -250,6 +275,10 @@ body {
     cursor: pointer;
     transition: background var(--transition-fast), transform var(--transition-fast);
     margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 }
 
 .login-btn:hover {
@@ -314,10 +343,12 @@ body {
 .user-button:hover {
     background: var(--gold-light);
     border-color: var(--gold);
+    color: black;
 }
 
 .user-arrow {
-    font-size: 12px;
+    width: 14px;
+    height: 14px;
     transition: transform var(--transition-fast);
 }
 
@@ -425,12 +456,20 @@ body {
     border-radius: 10px;
     background: transparent;
     border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
     transition: background var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
 }
 
 .tab:hover {
     background: var(--gold-light);
     color: black;
+}
+
+.tab:hover .icon {
+    stroke: black;
 }
 
 .tab:active {
@@ -441,6 +480,10 @@ body {
     background: var(--gold);
     color: black;
     box-shadow: 0 4px 10px var(--gold-glow);
+}
+
+.tab.active .icon {
+    stroke: black;
 }
 
 .tab-content {
