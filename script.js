@@ -1,6 +1,7 @@
 // ========== تنظیمات ثابت ==========
 const IRAN_OFFSET_MS = 4.5 * 60 * 60 * 1000; // +4.5 ساعت
 const DAYS_MAP = ['شنبه', 'یکشنبه', 'دوشنبه', 'سه شنبه', 'چهارشنبه', 'پنجشنبه', 'جمعه'];
+
 const USERS = {
     MOK: {
         password: '13241234',
@@ -42,8 +43,8 @@ const USERS = {
     }
 };
 
-let currentUser = null; // نام کاربری فعلی
-let sortState = { key: 'id', asc: true }; // مرتب‌سازی پیش‌فرض بر اساس id
+let currentUser = null;
+let sortState = { key: 'id', asc: true };
 
 // ========== توابع کمکی ==========
 function parseSchedule(scheduleStr) {
@@ -73,29 +74,27 @@ function parseExamDate(examStr) {
     if (!examStr) return null;
     const parts = examStr.split(' از ');
     if (parts.length < 2) return null;
-    const datePart = parts[0].trim(); // "1405/10/14"
-    const timePart = parts[1].trim(); // "12:45 تا 13:45"
-    const examTime = timePart.split(' تا ')[0].trim(); // "12:45"
+    const datePart = parts[0].trim();
+    const timePart = parts[1].trim();
+    const examTime = timePart.split(' تا ')[0].trim();
     const [year, month, day] = datePart.split('/').map(Number);
     const [hour, minute] = examTime.split(':').map(Number);
     return { year, month, day, hour, minute };
 }
 
 function getIranNow() {
-    // زمان با آفست +4.5 ساعت (توجه: ایران آفست واقعی +3:30 است، اما بنا به درخواست کاربر +4.5 تنظیم شد)
     return new Date(Date.now() + IRAN_OFFSET_MS);
 }
 
 function getIranDateForShamsi() {
-    // برای نمایش تاریخ شمسی با تقویم صحیح، یک ساعت اضافه می‌کنیم تا با +4:30 هماهنگ شود
-    // (زیرا Intl با timeZone 'Asia/Tehran' از +3:30 استفاده می‌کند؛ برای جبران اختلاف یک ساعته)
+    // برای تاریخ شمسی، ساعت را با timeZone 'Asia/Tehran' محاسبه می‌کنیم اما به دلیل آفست +4.5، 
+    // یک ساعت اختلاف داریم؛ بنابراین تاریخ را با جبران یک ساعته می‌گیریم.
     return new Date(Date.now() + (IRAN_OFFSET_MS - 3.5 * 60 * 60 * 1000));
 }
 
 function getCurrentDayIndex() {
     const tehranNow = getIranNow();
-    const utcDay = tehranNow.getUTCDay(); // 0=Sunday, 1=Monday, ..., 6=Saturday
-    // تبدیل به ایندکس ما: شنبه=0
+    const utcDay = tehranNow.getUTCDay();
     const map = [1, 2, 3, 4, 5, 6, 0];
     return map[utcDay];
 }
@@ -183,7 +182,7 @@ function getUpcomingExams() {
 function createBackgroundDots() {
     const bg = document.getElementById('bg-animation');
     if (!bg) return;
-    const numDots = 18; // تعداد کاهش یافته برای عملکرد بهتر
+    const numDots = 18;
     for (let i = 0; i < numDots; i++) {
         const dot = document.createElement('div');
         dot.classList.add('dot');
@@ -204,13 +203,11 @@ function updateClock() {
     const dateEl = document.getElementById('date');
     if (!clockEl || !dateEl) return;
 
-    // ساعت با آفست +4.5 (دستی)
     const hours = String(now.getUTCHours()).padStart(2, '0');
     const minutes = String(now.getUTCMinutes()).padStart(2, '0');
     const seconds = String(now.getUTCSeconds()).padStart(2, '0');
     clockEl.textContent = `${hours}:${minutes}:${seconds}`;
 
-    // تاریخ شمسی با قالب: شنبه، ۱۵ شهریور ۱۴۰۵
     const dateForDisplay = getIranDateForShamsi();
     const formatter = new Intl.DateTimeFormat('fa-IR', {
         weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Asia/Tehran'
@@ -253,7 +250,6 @@ function renderScheduleTable() {
     const todayIndex = getCurrentDayIndex();
     const currentClass = getCurrentClass();
 
-    // مرتب‌سازی بر اساس روز و زمان شروع
     const sortedCourses = [...courses].sort((a, b) => {
         const sa = parseSchedule(a.schedule);
         const sb = parseSchedule(b.schedule);
@@ -286,7 +282,6 @@ function renderListTable() {
     tbody.innerHTML = '';
     let courses = [...USERS[currentUser].courses];
 
-    // مرتب‌سازی
     courses.sort((a, b) => {
         let valA, valB;
         switch (sortState.key) {
@@ -350,7 +345,6 @@ function renderExamsTable() {
         .map(c => ({ ...c, examData: parseExamDate(c.exam) }))
         .filter(c => c.examData);
 
-    // مرتب‌سازی بر اساس تاریخ امتحان (سال، ماه، روز، ساعت)
     exams.sort((a, b) => {
         const ea = a.examData, eb = b.examData;
         if (ea.year !== eb.year) return ea.year - eb.year;
@@ -388,7 +382,6 @@ function setupTabsAndSorting() {
         });
     });
 
-    // مرتب‌سازی با کلیک روی سربرگ‌های جدول لیست
     document.querySelectorAll('#courses-list-table th[data-sort]').forEach(th => {
         th.addEventListener('click', () => {
             const key = th.getAttribute('data-sort');
@@ -415,7 +408,6 @@ function setupUserMenu() {
         dropdown.classList.toggle('show', !expanded);
     });
 
-    // بستن منو با کلیک بیرون
     document.addEventListener('click', (event) => {
         if (!event.target.closest('.user-menu')) {
             userButton.setAttribute('aria-expanded', 'false');
@@ -426,7 +418,7 @@ function setupUserMenu() {
     logoutBtn.addEventListener('click', handleLogout);
 }
 
-// ========== نمایش نام کاربر در هدر ==========
+// ========== نمایش نام کاربر ==========
 function updateUserDisplay() {
     const userNameEl = document.getElementById('user-name');
     if (userNameEl && currentUser) {
@@ -434,14 +426,12 @@ function updateUserDisplay() {
     }
 }
 
-// ========== به‌روزرسانی فوتر ==========
+// ========== به‌روزرسانی فوتر (متن ثابت «محمد») ==========
 function updateFooter() {
     const footerEl = document.getElementById('footer-text');
-    if (!footerEl || !currentUser) return;
-    const now = getIranDateForShamsi();
-    const formatter = new Intl.DateTimeFormat('fa-IR', { month: 'long', year: 'numeric', timeZone: 'Asia/Tehran' });
-    const monthYear = formatter.format(now);
-    footerEl.textContent = `${USERS[currentUser].displayName}، ${monthYear}`;
+    if (footerEl) {
+        footerEl.textContent = 'محمد';
+    }
 }
 
 // ========== نوتیفیکیشن‌ها ==========
@@ -532,7 +522,7 @@ function updateAll() {
     updateFooter();
 }
 
-// ========== PWA: ثبت سرویس ورکر و به‌روزرسانی خودکار ==========
+// ========== PWA ==========
 function registerServiceWorker() {
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('./sw.js')
@@ -545,10 +535,9 @@ function registerServiceWorker() {
                         }
                     });
                 });
-                // بررسی دوره‌ای برای به‌روزرسانی
                 setInterval(() => {
                     reg.update();
-                }, 60 * 60 * 1000); // هر ساعت
+                }, 60 * 60 * 1000);
             })
             .catch(err => console.log('SW registration failed:', err));
     }
@@ -574,7 +563,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (currentUser) {
             updateClock();
             updateMainBox();
-            // جداول هر ۵ ثانیه به‌روزرسانی شوند
             const now = new Date();
             if (now.getSeconds() % 5 === 0) {
                 renderScheduleTable();
