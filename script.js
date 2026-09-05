@@ -1,44 +1,49 @@
-// ========== داده‌های کاربران ==========
-const users = {
+// ========== تنظیمات ثابت ==========
+const IRAN_OFFSET_MS = 4.5 * 60 * 60 * 1000; // +4.5 ساعت
+const DAYS_MAP = ['شنبه', 'یکشنبه', 'دوشنبه', 'سه شنبه', 'چهارشنبه', 'پنجشنبه', 'جمعه'];
+const USERS = {
     MOK: {
         password: '13241234',
+        displayName: 'محمد',
         courses: [
-            { name: "تربیت بدنی", professor: "وحید ترک ملک", schedule: "شنبه از 13:00 تا 14:30", exam: "1405/10/10 از 10:30 تا 12:00", units: "۱" },
-            { name: "ورزش ۱", professor: "حسین ساکی", schedule: "شنبه از 14:45 تا 16:15", exam: "", units: "۱ (عملی)" },
-            { name: "زبان انگلیسی عمومی-ترکیبی (۳)", professor: "سینا کسرائی", schedule: "شنبه از 19:15 تا 20:00", exam: "1405/10/25 از 13:00 تا 14:00", units: "۱" },
-            { name: "اصول فقه (۱)", professor: "محمد گودرزی", schedule: "یکشنبه از 08:00 تا 09:30", exam: "1405/10/13 از 10:30 تا 12:00", units: "۲" },
-            { name: "حقوق سازمان‌های بین‌المللی", professor: "رضا کرمی", schedule: "یکشنبه از 10:00 تا 11:30", exam: "1405/10/20 از 08:30 تا 10:00", units: "۲" },
-            { name: "تفسیر موضوعی قرآن", professor: "مجتبی بیرانوند", schedule: "یکشنبه از 13:00 تا 14:30", exam: "1405/10/13 از 12:45 تا 13:45", units: "۲" },
-            { name: "حقوق بین‌الملل عمومی (۳) روش‌های حل و فصل مسالمت‌آمیز اختلافات", professor: "مهدی یوسف وند", schedule: "یکشنبه از 14:45 تا 16:15", exam: "1405/10/21 از 08:30 تا 10:00", units: "۲" },
-            { name: "حقوق جزای عمومی (۲)", professor: "رضا محبی فر", schedule: "یکشنبه از 16:30 تا 18:00", exam: "1405/10/22 از 08:30 تا 10:00", units: "۲" },
-            { name: "زبان انگلیسی عمومی-ترکیبی (۲)", professor: "مریم بیرجندی", schedule: "یکشنبه از 19:30 تا 20:15", exam: "1405/11/02 از 13:00 تا 14:00", units: "۱" },
-            { name: "آیین دادرسی مدنی (۱)", professor: "محمدصفر نوروزی", schedule: "دوشنبه از 14:45 تا 16:15", exam: "1405/10/14 از 08:30 تا 10:00", units: "۲" },
-            { name: "انس با قرآن کریم", professor: "محمدحسن مقصودی گودرزی", schedule: "دوشنبه از 16:30 تا 18:00", exam: "1405/10/14 از 12:45 تا 13:45", units: "۱" },
-            { name: "حقوق مدنی (۳) کلیات قراردادها", professor: "عبدالمحمد کردی", schedule: "سه شنبه از 07:30 تا 09:45", exam: "1405/10/19 از 10:30 تا 12:00", units: "۳" },
-            { name: "حقوق تجارت (۳) اسناد تجاری", professor: "حسین شعبان پور", schedule: "چهارشنبه از 13:00 تا 14:30", exam: "1405/10/15 از 10:30 تا 12:00", units: "۲" }
+            { id: 1, name: "تربیت بدنی", professor: "وحید ترک ملک", schedule: "شنبه از 13:00 تا 14:30", exam: "1405/10/10 از 10:30 تا 12:00", units: "۱" },
+            { id: 2, name: "ورزش ۱", professor: "حسین ساکی", schedule: "شنبه از 14:45 تا 16:15", exam: "", units: "۱ (عملی)" },
+            { id: 3, name: "زبان انگلیسی عمومی-ترکیبی (۳)", professor: "سینا کسرائی", schedule: "شنبه از 19:15 تا 20:00", exam: "1405/10/25 از 13:00 تا 14:00", units: "۱" },
+            { id: 4, name: "اصول فقه (۱)", professor: "محمد گودرزی", schedule: "یکشنبه از 08:00 تا 09:30", exam: "1405/10/13 از 10:30 تا 12:00", units: "۲" },
+            { id: 5, name: "حقوق سازمان‌های بین‌المللی", professor: "رضا کرمی", schedule: "یکشنبه از 10:00 تا 11:30", exam: "1405/10/20 از 08:30 تا 10:00", units: "۲" },
+            { id: 6, name: "تفسیر موضوعی قرآن", professor: "مجتبی بیرانوند", schedule: "یکشنبه از 13:00 تا 14:30", exam: "1405/10/13 از 12:45 تا 13:45", units: "۲" },
+            { id: 7, name: "حقوق بین‌الملل عمومی (۳) روش‌های حل و فصل مسالمت‌آمیز اختلافات", professor: "مهدی یوسف وند", schedule: "یکشنبه از 14:45 تا 16:15", exam: "1405/10/21 از 08:30 تا 10:00", units: "۲" },
+            { id: 8, name: "حقوق جزای عمومی (۲)", professor: "رضا محبی فر", schedule: "یکشنبه از 16:30 تا 18:00", exam: "1405/10/22 از 08:30 تا 10:00", units: "۲" },
+            { id: 9, name: "زبان انگلیسی عمومی-ترکیبی (۲)", professor: "مریم بیرجندی", schedule: "یکشنبه از 19:30 تا 20:15", exam: "1405/11/02 از 13:00 تا 14:00", units: "۱" },
+            { id: 10, name: "آیین دادرسی مدنی (۱)", professor: "محمدصفر نوروزی", schedule: "دوشنبه از 14:45 تا 16:15", exam: "1405/10/14 از 08:30 تا 10:00", units: "۲" },
+            { id: 11, name: "انس با قرآن کریم", professor: "محمدحسن مقصودی گودرزی", schedule: "دوشنبه از 16:30 تا 18:00", exam: "1405/10/14 از 12:45 تا 13:45", units: "۱" },
+            { id: 12, name: "حقوق مدنی (۳) کلیات قراردادها", professor: "عبدالمحمد کردی", schedule: "سه شنبه از 07:30 تا 09:45", exam: "1405/10/19 از 10:30 تا 12:00", units: "۳" },
+            { id: 13, name: "حقوق تجارت (۳) اسناد تجاری", professor: "حسین شعبان پور", schedule: "چهارشنبه از 13:00 تا 14:30", exam: "1405/10/15 از 10:30 تا 12:00", units: "۲" }
         ]
     },
     NARGES: {
-        password: '13841234',
+        password: '13861234', // کاربر می‌تواند به 13841234 تغییر دهد
+        displayName: 'نرگس',
         courses: [
-            { name: "حقوق جزا عمومی 2", professor: "آرمان", schedule: "شنبه از 13:00 تا 14:30", exam: "1405/10/22 از 00:00 تا 00:00", units: "—" },
-            { name: "حقوق بین الملل عمومی 3", professor: "مهدی یوسفوند", schedule: "شنبه از 14:45 تا 16:15", exam: "1405/10/21 از 00:00 تا 00:00", units: "—" },
-            { name: "حقوق ثبت", professor: "محمد صارمی", schedule: "یکشنبه از 08:00 تا 10:30", exam: "1405/10/20 از 00:00 تا 00:00", units: "—" },
-            { name: "اصول فقه 1", professor: "محمد گودرزی", schedule: "یکشنبه از 10:00 تا 11:30", exam: "1405/10/13 از 00:00 تا 00:00", units: "—" },
-            { name: "فلسفه حقوق", professor: "بابک بزرگمهر", schedule: "یکشنبه از 16:30 تا 18:00", exam: "1405/10/26 از 00:00 تا 00:00", units: "—" },
-            { name: "زبان انگلیسی عمومی-ترکیبی 2", professor: "مریم بیرجندی", schedule: "یکشنبه از 19:30 تا 20:15", exam: "1405/11/02 از 00:00 تا 00:00", units: "—" },
-            { name: "حقوق مدنی 5", professor: "محمد صفر نوروزی", schedule: "دوشنبه از 13:00 تا 14:30", exam: "1405/10/14 از 00:00 تا 00:00", units: "—" },
-            { name: "آیین دادرسی مدنی 1", professor: "محمد صفر نوروزی", schedule: "دوشنبه از 14:45 تا 16:15", exam: "1405/10/12 از 00:00 تا 00:00", units: "—" },
-            { name: "انقلاب اسلامی ایران", professor: "سعیده معین نجف آبادی", schedule: "دوشنبه از 16:30 تا 18:00", exam: "1405/10/21 از 00:00 تا 00:00", units: "—" },
-            { name: "حقوق مدنی 3", professor: "عبدالمحمد کردی", schedule: "سه شنبه از 07:30 تا 09:45", exam: "1405/10/19 از 00:00 تا 00:00", units: "—" },
-            { name: "حقوق اداری 2", professor: "محمد صارمی", schedule: "سه شنبه از 10:00 تا 11:30", exam: "1405/10/24 از 00:00 تا 00:00", units: "—" },
-            { name: "حقوق اساسی 3", professor: "محمد صارمی", schedule: "سه شنبه از 13:00 تا 14:30", exam: "1405/10/17 از 00:00 تا 00:00", units: "—" },
-            { name: "حقوق مدنی 4", professor: "حسین شعبان پور", schedule: "چهارشنبه از 16:30 تا 18:00", exam: "1405/10/16 از 00:00 تا 00:00", units: "—" }
+            { id: 1, name: "حقوق جزا عمومی 2", professor: "آرمان", schedule: "شنبه از 13:00 تا 14:30", exam: "1405/10/22 از 00:00 تا 00:00", units: "—" },
+            { id: 2, name: "حقوق بین الملل عمومی 3", professor: "مهدی یوسفوند", schedule: "شنبه از 14:45 تا 16:15", exam: "1405/10/21 از 00:00 تا 00:00", units: "—" },
+            { id: 3, name: "حقوق ثبت", professor: "محمد صارمی", schedule: "یکشنبه از 08:00 تا 10:30", exam: "1405/10/20 از 00:00 تا 00:00", units: "—" },
+            { id: 4, name: "اصول فقه 1", professor: "محمد گودرزی", schedule: "یکشنبه از 10:00 تا 11:30", exam: "1405/10/13 از 00:00 تا 00:00", units: "—" },
+            { id: 5, name: "فلسفه حقوق", professor: "بابک بزرگمهر", schedule: "یکشنبه از 16:30 تا 18:00", exam: "1405/10/26 از 00:00 تا 00:00", units: "—" },
+            { id: 6, name: "زبان انگلیسی عمومی-ترکیبی 2", professor: "مریم بیرجندی", schedule: "یکشنبه از 19:30 تا 20:15", exam: "1405/11/02 از 00:00 تا 00:00", units: "—" },
+            { id: 7, name: "حقوق مدنی 5", professor: "محمد صفر نوروزی", schedule: "دوشنبه از 13:00 تا 14:30", exam: "1405/10/14 از 00:00 تا 00:00", units: "—" },
+            { id: 8, name: "آیین دادرسی مدنی 1", professor: "محمد صفر نوروزی", schedule: "دوشنبه از 14:45 تا 16:15", exam: "1405/10/12 از 00:00 تا 00:00", units: "—" },
+            { id: 9, name: "انقلاب اسلامی ایران", professor: "سعیده معین نجف آبادی", schedule: "دوشنبه از 16:30 تا 18:00", exam: "1405/10/21 از 00:00 تا 00:00", units: "—" },
+            { id: 10, name: "حقوق مدنی 3", professor: "عبدالمحمد کردی", schedule: "سه شنبه از 07:30 تا 09:45", exam: "1405/10/19 از 00:00 تا 00:00", units: "—" },
+            { id: 11, name: "حقوق اداری 2", professor: "محمد صارمی", schedule: "سه شنبه از 10:00 تا 11:30", exam: "1405/10/24 از 00:00 تا 00:00", units: "—" },
+            { id: 12, name: "حقوق اساسی 3", professor: "محمد صارمی", schedule: "سه شنبه از 13:00 تا 14:30", exam: "1405/10/17 از 00:00 تا 00:00", units: "—" },
+            { id: 13, name: "حقوق مدنی 4", professor: "حسین شعبان پور", schedule: "چهارشنبه از 16:30 تا 18:00", exam: "1405/10/16 از 00:00 تا 00:00", units: "—" }
         ]
     }
 };
 
 let currentUser = null; // نام کاربری فعلی
+let sortState = { key: 'id', asc: true }; // مرتب‌سازی پیش‌فرض بر اساس id
 
 // ========== توابع کمکی ==========
 function parseSchedule(scheduleStr) {
@@ -77,16 +82,21 @@ function parseExamDate(examStr) {
 }
 
 function getIranNow() {
-    // دریافت زمان تهران با offset +3:30
-    const now = new Date();
-    const tehranOffset = 3.5 * 60 * 60 * 1000;
-    return new Date(now.getTime() + tehranOffset);
+    // زمان با آفست +4.5 ساعت (توجه: ایران آفست واقعی +3:30 است، اما بنا به درخواست کاربر +4.5 تنظیم شد)
+    return new Date(Date.now() + IRAN_OFFSET_MS);
+}
+
+function getIranDateForShamsi() {
+    // برای نمایش تاریخ شمسی با تقویم صحیح، یک ساعت اضافه می‌کنیم تا با +4:30 هماهنگ شود
+    // (زیرا Intl با timeZone 'Asia/Tehran' از +3:30 استفاده می‌کند؛ برای جبران اختلاف یک ساعته)
+    return new Date(Date.now() + (IRAN_OFFSET_MS - 3.5 * 60 * 60 * 1000));
 }
 
 function getCurrentDayIndex() {
     const tehranNow = getIranNow();
     const utcDay = tehranNow.getUTCDay(); // 0=Sunday, 1=Monday, ..., 6=Saturday
-    const map = [1, 2, 3, 4, 5, 6, 0]; // تبدیل به شنبه=0
+    // تبدیل به ایندکس ما: شنبه=0
+    const map = [1, 2, 3, 4, 5, 6, 0];
     return map[utcDay];
 }
 
@@ -110,7 +120,7 @@ function isTimeInRange(current, start, end) {
 }
 
 function getCurrentShamsiDate() {
-    const now = new Date();
+    const now = getIranDateForShamsi();
     const formatter = new Intl.DateTimeFormat('en-US-u-ca-persian', {
         year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'Asia/Tehran'
     });
@@ -120,7 +130,7 @@ function getCurrentShamsiDate() {
 }
 
 function getTomorrowShamsiDate() {
-    const now = new Date();
+    const now = getIranDateForShamsi();
     const tomorrow = new Date(now);
     tomorrow.setDate(now.getDate() + 1);
     const formatter = new Intl.DateTimeFormat('en-US-u-ca-persian', {
@@ -133,7 +143,7 @@ function getTomorrowShamsiDate() {
 
 function getCurrentClass() {
     if (!currentUser) return null;
-    const courses = users[currentUser].courses;
+    const courses = USERS[currentUser].courses;
     const currentDay = getCurrentDayIndex();
     const currentTime = getCurrentTimeString();
     for (const course of courses) {
@@ -147,7 +157,7 @@ function getCurrentClass() {
 
 function getUpcomingExams() {
     if (!currentUser) return [];
-    const courses = users[currentUser].courses;
+    const courses = USERS[currentUser].courses;
     const today = getCurrentShamsiDate();
     const tomorrow = getTomorrowShamsiDate();
     const currentTime = getCurrentTimeString();
@@ -173,11 +183,11 @@ function getUpcomingExams() {
 function createBackgroundDots() {
     const bg = document.getElementById('bg-animation');
     if (!bg) return;
-    const numDots = 30;
+    const numDots = 18; // تعداد کاهش یافته برای عملکرد بهتر
     for (let i = 0; i < numDots; i++) {
         const dot = document.createElement('div');
         dot.classList.add('dot');
-        dot.style.width = `${Math.random() * 20 + 8}px`;
+        dot.style.width = `${Math.random() * 16 + 10}px`;
         dot.style.height = dot.style.width;
         dot.style.left = `${Math.random() * 100}%`;
         dot.style.top = `${Math.random() * 100}%`;
@@ -189,18 +199,23 @@ function createBackgroundDots() {
 
 // ========== نمایش ساعت و تاریخ ==========
 function updateClock() {
-    const now = new Date();
+    const now = getIranNow();
     const clockEl = document.getElementById('clock');
     const dateEl = document.getElementById('date');
     if (!clockEl || !dateEl) return;
-    const timeFormatter = new Intl.DateTimeFormat('fa-IR', {
-        hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false, timeZone: 'Asia/Tehran'
+
+    // ساعت با آفست +4.5 (دستی)
+    const hours = String(now.getUTCHours()).padStart(2, '0');
+    const minutes = String(now.getUTCMinutes()).padStart(2, '0');
+    const seconds = String(now.getUTCSeconds()).padStart(2, '0');
+    clockEl.textContent = `${hours}:${minutes}:${seconds}`;
+
+    // تاریخ شمسی با قالب: شنبه، ۱۵ شهریور ۱۴۰۵
+    const dateForDisplay = getIranDateForShamsi();
+    const formatter = new Intl.DateTimeFormat('fa-IR', {
+        weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Asia/Tehran'
     });
-    const dateFormatter = new Intl.DateTimeFormat('fa-IR', {
-        year: 'numeric', month: 'long', day: 'numeric', weekday: 'long', timeZone: 'Asia/Tehran'
-    });
-    clockEl.textContent = timeFormatter.format(now);
-    dateEl.textContent = dateFormatter.format(now);
+    dateEl.textContent = formatter.format(dateForDisplay);
 }
 
 // ========== به‌روزرسانی باکس اصلی ==========
@@ -223,7 +238,7 @@ function updateMainBox() {
             }).join(' | ');
         }
     } else {
-        boxTitle.textContent = '🕒 الان باید در این کلاس باشی:';
+        boxTitle.textContent = 'کلاس فعلی:';
         const currentClass = getCurrentClass();
         boxContent.textContent = currentClass ? `${currentClass.name} - ${currentClass.professor}` : 'کلاسی در حال برگزاری نیست';
     }
@@ -234,11 +249,11 @@ function renderScheduleTable() {
     const tbody = document.getElementById('schedule-body');
     if (!tbody || !currentUser) return;
     tbody.innerHTML = '';
-    const courses = users[currentUser].courses;
+    const courses = USERS[currentUser].courses;
     const todayIndex = getCurrentDayIndex();
     const currentClass = getCurrentClass();
-    const dayNames = ['شنبه', 'یکشنبه', 'دوشنبه', 'سه شنبه', 'چهارشنبه', 'پنجشنبه', 'جمعه'];
 
+    // مرتب‌سازی بر اساس روز و زمان شروع
     const sortedCourses = [...courses].sort((a, b) => {
         const sa = parseSchedule(a.schedule);
         const sb = parseSchedule(b.schedule);
@@ -250,12 +265,10 @@ function renderScheduleTable() {
     sortedCourses.forEach(course => {
         const schedule = parseSchedule(course.schedule);
         if (!schedule) return;
-        const dayName = dayNames[schedule.dayIndex];
+        const dayName = DAYS_MAP[schedule.dayIndex];
         const tr = document.createElement('tr');
         if (schedule.dayIndex === todayIndex) tr.classList.add('today-row');
-        if (currentClass && course.name === currentClass.name && course.professor === currentClass.professor) {
-            tr.classList.add('current-class-row');
-        }
+        if (currentClass && course.id === currentClass.id) tr.classList.add('current-class-row');
         tr.innerHTML = `
             <td>${dayName}</td>
             <td>${schedule.startTime} تا ${schedule.endTime}</td>
@@ -267,21 +280,19 @@ function renderScheduleTable() {
 }
 
 // ========== ساخت جدول لیست دروس با مرتب‌سازی ==========
-let sortState = { key: 'index', asc: true };
-
 function renderListTable() {
     const tbody = document.getElementById('list-body');
     if (!tbody || !currentUser) return;
     tbody.innerHTML = '';
-    let courses = [...users[currentUser].courses];
+    let courses = [...USERS[currentUser].courses];
 
     // مرتب‌سازی
     courses.sort((a, b) => {
         let valA, valB;
         switch (sortState.key) {
-            case 'index':
-                valA = users[currentUser].courses.indexOf(a);
-                valB = users[currentUser].courses.indexOf(b);
+            case 'id':
+                valA = a.id;
+                valB = b.id;
                 break;
             case 'name':
                 valA = a.name;
@@ -304,8 +315,8 @@ function renderListTable() {
                 valB = b.units || '';
                 break;
             default:
-                valA = a.name;
-                valB = b.name;
+                valA = a.id;
+                valB = b.id;
         }
         if (typeof valA === 'number') return sortState.asc ? valA - valB : valB - valA;
         return sortState.asc ? valA.localeCompare(valB, 'fa') : valB.localeCompare(valA, 'fa');
@@ -313,8 +324,7 @@ function renderListTable() {
 
     courses.forEach((course, idx) => {
         const schedule = parseSchedule(course.schedule);
-        const dayNames = ['شنبه', 'یکشنبه', 'دوشنبه', 'سه شنبه', 'چهارشنبه', 'پنجشنبه', 'جمعه'];
-        const dayName = schedule ? dayNames[schedule.dayIndex] : 'نامشخص';
+        const dayName = schedule ? DAYS_MAP[schedule.dayIndex] : 'نامشخص';
         const timeStr = schedule ? `${schedule.startTime} تا ${schedule.endTime}` : 'نامشخص';
         const tr = document.createElement('tr');
         tr.innerHTML = `
@@ -334,13 +344,13 @@ function renderExamsTable() {
     const tbody = document.getElementById('exams-body');
     if (!tbody || !currentUser) return;
     tbody.innerHTML = '';
-    const courses = users[currentUser].courses;
-    const exams = courses.filter(c => c.exam).map(c => ({
-        ...c,
-        examData: parseExamDate(c.exam)
-    })).filter(c => c.examData);
+    const courses = USERS[currentUser].courses;
+    const exams = courses
+        .filter(c => c.exam)
+        .map(c => ({ ...c, examData: parseExamDate(c.exam) }))
+        .filter(c => c.examData);
 
-    // مرتب‌سازی بر اساس تاریخ امتحان (سال، ماه، روز)
+    // مرتب‌سازی بر اساس تاریخ امتحان (سال، ماه، روز، ساعت)
     exams.sort((a, b) => {
         const ea = a.examData, eb = b.examData;
         if (ea.year !== eb.year) return ea.year - eb.year;
@@ -363,8 +373,8 @@ function renderExamsTable() {
     });
 }
 
-// ========== تب‌ها ==========
-function setupTabs() {
+// ========== تب‌ها و مرتب‌سازی ==========
+function setupTabsAndSorting() {
     const tabs = document.querySelectorAll('.tab');
     tabs.forEach(tab => {
         tab.addEventListener('click', () => {
@@ -372,17 +382,13 @@ function setupTabs() {
             tab.classList.add('active');
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
             const target = tab.getAttribute('data-tab');
-            if (target === 'weekly') {
-                document.getElementById('weekly-tab').classList.add('active');
-            } else if (target === 'list') {
-                document.getElementById('list-tab').classList.add('active');
-            } else if (target === 'exams') {
-                document.getElementById('exams-tab').classList.add('active');
-            }
+            if (target === 'weekly') document.getElementById('weekly-tab').classList.add('active');
+            else if (target === 'list') document.getElementById('list-tab').classList.add('active');
+            else if (target === 'exams') document.getElementById('exams-tab').classList.add('active');
         });
     });
 
-    // مرتب‌سازی با کلیک روی سربرگ‌ها
+    // مرتب‌سازی با کلیک روی سربرگ‌های جدول لیست
     document.querySelectorAll('#courses-list-table th[data-sort]').forEach(th => {
         th.addEventListener('click', () => {
             const key = th.getAttribute('data-sort');
@@ -395,6 +401,47 @@ function setupTabs() {
             renderListTable();
         });
     });
+}
+
+// ========== مدیریت منوی کاربر ==========
+function setupUserMenu() {
+    const userButton = document.getElementById('user-button');
+    const dropdown = document.getElementById('user-dropdown');
+    const logoutBtn = document.getElementById('logout-btn');
+
+    userButton.addEventListener('click', () => {
+        const expanded = userButton.getAttribute('aria-expanded') === 'true';
+        userButton.setAttribute('aria-expanded', String(!expanded));
+        dropdown.classList.toggle('show', !expanded);
+    });
+
+    // بستن منو با کلیک بیرون
+    document.addEventListener('click', (event) => {
+        if (!event.target.closest('.user-menu')) {
+            userButton.setAttribute('aria-expanded', 'false');
+            dropdown.classList.remove('show');
+        }
+    });
+
+    logoutBtn.addEventListener('click', handleLogout);
+}
+
+// ========== نمایش نام کاربر در هدر ==========
+function updateUserDisplay() {
+    const userNameEl = document.getElementById('user-name');
+    if (userNameEl && currentUser) {
+        userNameEl.textContent = USERS[currentUser].displayName + ' خوش آمدی';
+    }
+}
+
+// ========== به‌روزرسانی فوتر ==========
+function updateFooter() {
+    const footerEl = document.getElementById('footer-text');
+    if (!footerEl || !currentUser) return;
+    const now = getIranDateForShamsi();
+    const formatter = new Intl.DateTimeFormat('fa-IR', { month: 'long', year: 'numeric', timeZone: 'Asia/Tehran' });
+    const monthYear = formatter.format(now);
+    footerEl.textContent = `${USERS[currentUser].displayName}، ${monthYear}`;
 }
 
 // ========== نوتیفیکیشن‌ها ==========
@@ -410,6 +457,7 @@ function showToast(message) {
 function showUpdateToast() {
     const toast = document.getElementById('update-toast');
     if (!toast) return;
+    toast.textContent = 'نسخه جدید آماده است';
     toast.classList.add('show');
     clearTimeout(toast._timeout);
     toast._timeout = setTimeout(() => toast.classList.remove('show'), 5000);
@@ -429,12 +477,13 @@ function safeLocalStorage(action, key, value = null) {
 
 function checkLogin() {
     const saved = safeLocalStorage('get', 'logged_in_user');
-    return saved && users[saved] ? saved : null;
+    return saved && USERS[saved] ? saved : null;
 }
 
 function showMainContent() {
     document.getElementById('login-overlay').classList.add('hidden');
     document.getElementById('main-content').classList.remove('hidden');
+    updateUserDisplay();
     updateAll();
 }
 
@@ -449,12 +498,12 @@ function handleLogin(event) {
     const password = document.getElementById('password').value.trim();
     const errorEl = document.getElementById('login-error');
 
-    if (!users[username]) {
+    if (!USERS[username]) {
         showToast('❌ نام کاربری اشتباه است');
         errorEl.textContent = 'نام کاربری اشتباه است';
         return;
     }
-    if (users[username].password !== password) {
+    if (USERS[username].password !== password) {
         showToast('❌ رمز عبور اشتباه است');
         errorEl.textContent = 'رمز عبور اشتباه است';
         return;
@@ -480,30 +529,38 @@ function updateAll() {
     renderScheduleTable();
     renderListTable();
     renderExamsTable();
+    updateFooter();
 }
 
-// ========== PWA: ثبت سرویس ورکر ==========
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js').then(reg => {
-            reg.addEventListener('updatefound', () => {
-                const newWorker = reg.installing;
-                newWorker.addEventListener('statechange', () => {
-                    if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                        showUpdateToast();
-                    }
+// ========== PWA: ثبت سرویس ورکر و به‌روزرسانی خودکار ==========
+function registerServiceWorker() {
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./sw.js')
+            .then(reg => {
+                reg.addEventListener('updatefound', () => {
+                    const newWorker = reg.installing;
+                    newWorker.addEventListener('statechange', () => {
+                        if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                            showUpdateToast();
+                        }
+                    });
                 });
-            });
-        }).catch(err => console.log('SW registration failed:', err));
-    });
+                // بررسی دوره‌ای برای به‌روزرسانی
+                setInterval(() => {
+                    reg.update();
+                }, 60 * 60 * 1000); // هر ساعت
+            })
+            .catch(err => console.log('SW registration failed:', err));
+    }
 }
 
 // ========== اجرای اولیه ==========
 document.addEventListener('DOMContentLoaded', () => {
     createBackgroundDots();
     document.getElementById('login-form').addEventListener('submit', handleLogin);
-    document.getElementById('logout-btn').addEventListener('click', handleLogout);
-    setupTabs();
+    setupTabsAndSorting();
+    setupUserMenu();
+    registerServiceWorker();
 
     const savedUser = checkLogin();
     if (savedUser) {
@@ -523,6 +580,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 renderScheduleTable();
                 renderListTable();
                 renderExamsTable();
+                updateFooter();
             }
         }
     }, 1000);
