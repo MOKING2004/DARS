@@ -23,7 +23,7 @@ const USERS = {
         ]
     },
     NARGES: {
-        password: '13861234', // کاربر می‌تواند به 13841234 تغییر دهد
+        password: '13841234',
         displayName: 'نرگس',
         courses: [
             { id: 1, name: "حقوق جزا عمومی 2", professor: "آرمان", schedule: "شنبه از 13:00 تا 14:30", exam: "1405/10/22 از 00:00 تا 00:00", units: "—" },
@@ -425,11 +425,11 @@ function updateUserDisplay() {
     }
 }
 
-// ========== به‌روزرسانی فوتر (متن ثابت «محمد») ==========
+// ========== به‌روزرسانی فوتر (متن ثابت) ==========
 function updateFooter() {
     const footerEl = document.getElementById('footer-text');
     if (footerEl) {
-        footerEl.textContent = 'محمد';
+        footerEl.textContent = 'شهریور 1405،محمد';
     }
 }
 
