@@ -2,15 +2,39 @@
 <html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ترم ۳ - برنامه هفتگی</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>پنل دانشجو | ترم ۳</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="panel">
-        <!-- هدر با عنوان ترم و ساعت -->
-        <div class="panel-header">
-            <div class="panel-title">📅 ترم ۳ - برنامه هفتگی</div>
+
+    <!-- صفحه لاگین -->
+    <div id="login-overlay" class="login-overlay">
+        <div class="login-container glass-card">
+            <div class="login-title">🔐 ورود به سامانه</div>
+            <form id="login-form">
+                <div class="input-group">
+                    <label for="username">نام کاربری</label>
+                    <input type="text" id="username" placeholder="نام کاربری" required>
+                </div>
+                <div class="input-group">
+                    <label for="password">رمز عبور</label>
+                    <input type="password" id="password" placeholder="رمز عبور" required>
+                </div>
+                <button type="submit" class="login-btn">ورود</button>
+                <p id="login-error" class="error-message"></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- محتوای اصلی -->
+    <div id="main-content" class="panel hidden">
+        <!-- هدر -->
+        <div class="panel-header glass-card">
+            <div class="header-right">
+                <div class="panel-title">📅 ترم ۳</div>
+                <button id="logout-btn" class="logout-btn">خروج</button>
+            </div>
             <div class="clock-container">
                 <div class="clock" id="clock">--:--:--</div>
                 <div class="date" id="date">---</div>
@@ -18,37 +42,65 @@
         </div>
 
         <!-- باکس کلاس در حال برگزاری -->
-        <div class="current-class-box" id="current-class-box">
+        <div class="glass-card current-class-box" id="current-class-box">
             <div class="box-title">🕒 الان باید در این کلاس باشی:</div>
             <div class="box-content" id="current-class-info">
                 کلاسی در حال برگزاری نیست
             </div>
         </div>
 
-        <!-- باکس امتحان‌های نزدیک -->
-        <div class="exam-reminder-box" id="exam-reminder-box">
+        <!-- باکس امتحان‌های پیش رو -->
+        <div class="glass-card exam-reminder-box" id="exam-reminder-box">
             <div class="box-title">📝 امتحان‌های پیش رو:</div>
             <div class="box-content" id="exam-reminder-info">
                 امتحانی نزدیک نیست
             </div>
         </div>
 
-        <!-- جدول برنامه هفتگی -->
-        <div class="table-wrapper">
-            <table id="weekly-schedule-table">
-                <thead>
-                    <tr>
-                        <th>روز</th>
-                        <th>زمان کلاس</th>
-                        <th>نام درس</th>
-                        <th>نام استاد</th>
-                        <th>زمان امتحان</th>
-                    </tr>
-                </thead>
-                <tbody id="schedule-body">
-                    <!-- ردیف‌ها با جاوااسکریپت ساخته می‌شوند -->
-                </tbody>
-            </table>
+        <!-- تب‌ها -->
+        <div class="tabs">
+            <div class="tab active" data-tab="weekly">📅 برنامه هفتگی</div>
+            <div class="tab" data-tab="list">📋 لیست دروس</div>
+        </div>
+
+        <!-- تب برنامه هفتگی -->
+        <div id="weekly-tab" class="tab-content active">
+            <div class="table-wrapper glass-card">
+                <table id="weekly-schedule-table">
+                    <thead>
+                        <tr>
+                            <th>روز</th>
+                            <th>زمان کلاس</th>
+                            <th>نام درس</th>
+                            <th>نام استاد</th>
+                            <th>زمان امتحان</th>
+                        </tr>
+                    </thead>
+                    <tbody id="schedule-body">
+                        <!-- ردیف‌ها با جاوااسکریپت ساخته می‌شوند -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- تب لیست دروس -->
+        <div id="list-tab" class="tab-content">
+            <div class="table-wrapper glass-card">
+                <table id="courses-list-table">
+                    <thead>
+                        <tr>
+                            <th>ردیف</th>
+                            <th>نام درس</th>
+                            <th>نام استاد</th>
+                            <th>زمان کلاس</th>
+                            <th>زمان امتحان</th>
+                        </tr>
+                    </thead>
+                    <tbody id="list-body">
+                        <!-- ردیف‌ها با جاوااسکریپت ساخته می‌شوند -->
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
