@@ -4,12 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>پنل دانشجو | ترم ۳</title>
+    
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#1e3c72">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    <link rel="icon" type="image/png" href="icons/icon-192.png">
+    
+    <!-- فونت فارسی وزیر -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+    <!-- پس‌زمینه انیمیشنی نقطه‌های طلایی -->
+    <div id="bg-animation" class="bg-animation"></div>
+
     <!-- نوتیفیکیشن -->
     <div id="toast" class="toast">متن نوتیفیکیشن</div>
+
+    <!-- نوتیفیکیشن آپدیت -->
+    <div id="update-toast" class="toast update-toast">نسخه جدید آماده است</div>
 
     <!-- صفحه لاگین -->
     <div id="login-overlay" class="login-overlay">
@@ -18,11 +33,11 @@
             <form id="login-form">
                 <div class="input-group">
                     <label for="username">نام کاربری</label>
-                    <input type="text" id="username" placeholder="نام کاربری" required>
+                    <input type="text" id="username" placeholder="نام کاربری" autocomplete="off" required>
                 </div>
                 <div class="input-group">
                     <label for="password">رمز عبور</label>
-                    <input type="password" id="password" placeholder="رمز عبور" required>
+                    <input type="password" id="password" placeholder="رمز عبور" autocomplete="off" required>
                 </div>
                 <button type="submit" class="login-btn">ورود</button>
                 <p id="login-error" class="error-message"></p>
@@ -44,19 +59,11 @@
             </div>
         </div>
 
-        <!-- باکس کلاس در حال برگزاری -->
-        <div class="glass-card current-class-box" id="current-class-box">
-            <div class="box-title">🕒 الان باید در این کلاس باشی:</div>
-            <div class="box-content" id="current-class-info">
+        <!-- باکس اصلی (کلاس جاری یا امتحان‌های پیش رو) -->
+        <div class="glass-card main-info-box" id="main-info-box">
+            <div class="box-title" id="box-title">🕒 الان باید در این کلاس باشی:</div>
+            <div class="box-content" id="box-content">
                 کلاسی در حال برگزاری نیست
-            </div>
-        </div>
-
-        <!-- باکس امتحان‌های پیش رو -->
-        <div class="glass-card exam-reminder-box" id="exam-reminder-box">
-            <div class="box-title">📝 امتحان‌های پیش رو:</div>
-            <div class="box-content" id="exam-reminder-info">
-                امتحانی نزدیک نیست
             </div>
         </div>
 
@@ -97,6 +104,7 @@
                             <th data-sort="professor">نام استاد</th>
                             <th data-sort="schedule">زمان کلاس</th>
                             <th data-sort="exam">زمان امتحان</th>
+                            <th data-sort="units">واحد</th>
                         </tr>
                     </thead>
                     <tbody id="list-body">
@@ -112,8 +120,8 @@
                 <table id="exams-table">
                     <thead>
                         <tr>
-                            <th>تاریخ</th>
-                            <th>ساعت</th>
+                            <th>تاریخ امتحان</th>
+                            <th>ساعت امتحان</th>
                             <th>نام درس</th>
                             <th>استاد</th>
                         </tr>
