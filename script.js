@@ -1,5 +1,4 @@
 // ========== تنظیمات ثابت ==========
-const IRAN_OFFSET_MS = 4.5 * 60 * 60 * 1000; // +4.5 ساعت
 const DAYS_MAP = ['شنبه', 'یکشنبه', 'دوشنبه', 'سه شنبه', 'چهارشنبه', 'پنجشنبه', 'جمعه'];
 
 const USERS = {
@@ -82,26 +81,17 @@ function parseExamDate(examStr) {
     return { year, month, day, hour, minute };
 }
 
-function getIranNow() {
-    return new Date(Date.now() + IRAN_OFFSET_MS);
-}
-
-function getIranDateForShamsi() {
-    // جبران اختلاف یک ساعته نسبت به timeZone واقعی تهران
-    return new Date(Date.now() + (IRAN_OFFSET_MS - 3.5 * 60 * 60 * 1000));
-}
-
 function getCurrentDayIndex() {
-    const tehranNow = getIranNow();
-    const utcDay = tehranNow.getUTCDay();
-    const map = [1, 2, 3, 4, 5, 6, 0];
-    return map[utcDay];
+    const now = new Date();
+    const day = now.getDay(); // 0=Sunday, 1=Monday, ...
+    const map = [1, 2, 3, 4, 5, 6, 0]; // تبدیل به شنبه=0
+    return map[day];
 }
 
 function getCurrentTimeString() {
-    const tehranNow = getIranNow();
-    const hours = String(tehranNow.getUTCHours()).padStart(2, '0');
-    const minutes = String(tehranNow.getUTCMinutes()).padStart(2, '0');
+    const now = new Date();
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
     return `${hours}:${minutes}`;
 }
 
@@ -118,9 +108,9 @@ function isTimeInRange(current, start, end) {
 }
 
 function getCurrentShamsiDate() {
-    const now = getIranDateForShamsi();
+    const now = new Date();
     const formatter = new Intl.DateTimeFormat('en-US-u-ca-persian', {
-        year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'Asia/Tehran'
+        year: 'numeric', month: '2-digit', day: '2-digit'
     });
     const parts = formatter.formatToParts(now);
     const get = (type) => Number(parts.find(p => p.type === type)?.value);
@@ -128,11 +118,11 @@ function getCurrentShamsiDate() {
 }
 
 function getTomorrowShamsiDate() {
-    const now = getIranDateForShamsi();
+    const now = new Date();
     const tomorrow = new Date(now);
     tomorrow.setDate(now.getDate() + 1);
     const formatter = new Intl.DateTimeFormat('en-US-u-ca-persian', {
-        year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'Asia/Tehran'
+        year: 'numeric', month: '2-digit', day: '2-digit'
     });
     const parts = formatter.formatToParts(tomorrow);
     const get = (type) => Number(parts.find(p => p.type === type)?.value);
@@ -197,21 +187,22 @@ function createBackgroundDots() {
 
 // ========== نمایش ساعت و تاریخ ==========
 function updateClock() {
-    const now = getIranNow();
+    const now = new Date();
     const clockEl = document.getElementById('clock');
     const dateEl = document.getElementById('date');
     if (!clockEl || !dateEl) return;
 
-    const hours = String(now.getUTCHours()).padStart(2, '0');
-    const minutes = String(now.getUTCMinutes()).padStart(2, '0');
-    const seconds = String(now.getUTCSeconds()).padStart(2, '0');
+    // ساعت محلی گوشی
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
     clockEl.textContent = `${hours}:${minutes}:${seconds}`;
 
-    const dateForDisplay = getIranDateForShamsi();
+    // تاریخ شمسی بر اساس ساعت محلی
     const formatter = new Intl.DateTimeFormat('fa-IR', {
-        weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Asia/Tehran'
+        weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
     });
-    dateEl.textContent = formatter.format(dateForDisplay);
+    dateEl.textContent = formatter.format(now);
 }
 
 // ========== به‌روزرسانی باکس اصلی ==========
@@ -560,7 +551,6 @@ document.addEventListener('DOMContentLoaded', () => {
     registerServiceWorker();
     updateThemeColor();
 
-    // گوش دادن به تغییرات دارک مود سیستم
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
         updateThemeColor();
     });
