@@ -1,53 +1,64 @@
-/* ========== متغیرهای سراسری ========== */
+/* ============================================================
+   🎨 متغیرهای سراسری — تم دارک لوکس (طلایی–بنفش)
+   ============================================================ */
 :root {
-    --gold: #d4af37;
-    --gold-light: #f0d060;
-    --gold-dark: #b8941f;
-    --gold-glow: rgba(212, 175, 55, 0.4);
-    --text-dark: #0f172a;
-    --text-medium: #334155;
-    --text-light: #475569;
-    --bg-light: #ffffff;
-    --bg-dark: #000000;
-    --glass-light: rgba(255, 255, 255, 0.5);
-    --glass-dark: rgba(0, 0, 0, 0.5);
-    --glass-border-light: rgba(255, 255, 255, 0.6);
-    --glass-border-dark: rgba(255, 255, 255, 0.2);
-    --shadow-light: 0 8px 32px rgba(0, 0, 0, 0.08);
-    --shadow-dark: 0 8px 32px rgba(0, 0, 0, 0.4);
-    --icon-color: #000000; /* آیکون‌ها در حالت روشن مشکی */
+    /* رنگ‌های اصلی */
+    --gold: #ffc857;
+    --gold-light: #ffd77a;
+    --gold-dark: #d99e2b;
+    --gold-glow: rgba(255, 200, 87, 0.35);
+    --gold-soft: rgba(255, 200, 87, 0.08);
+
+    --purple: #a78bfa;
+    --purple-light: #c4b5fd;
+    --purple-dark: #7c3aed;
+    --purple-glow: rgba(167, 139, 250, 0.35);
+
+    --rose: #f472b6;
+    --cyan: #22d3ee;
+    --emerald: #34d399;
+    --danger: #f87171;
+
+    /* پس‌زمینه‌های دارک */
+    --bg-0: #05050a;
+    --bg-1: #0a0a14;
+    --bg-2: #10101e;
+    --bg-3: #16162a;
+
+    /* متن‌ها */
+    --text: #f5f3ff;
+    --text-secondary: #a5a3c7;
+    --text-muted: #6b6890;
+    --text-on-accent: #0a0a14;
+
+    /* شیشه‌ای */
+    --glass-bg: rgba(22, 22, 42, 0.55);
+    --glass-bg-strong: rgba(22, 22, 42, 0.75);
+    --glass-border: rgba(255, 200, 87, 0.15);
+    --glass-border-hover: rgba(255, 200, 87, 0.35);
+    --glass-shadow: 0 8px 40px rgba(0, 0, 0, 0.55);
+    --glass-shadow-hover: 0 12px 50px rgba(255, 200, 87, 0.15);
+
+    /* آیکون */
+    --icon-color: #ffc857;
+
+    /* لایه‌بندی */
     --z-base: 0;
     --z-content: 1;
     --z-header: 10;
     --z-dropdown: 20;
     --z-toast: 2000;
     --z-overlay: 1000;
-    --transition-fast: 0.2s ease;
-    --transition-medium: 0.3s ease;
+
+    /* ترنزیشن */
+    --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-medium: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-@media (prefers-color-scheme: dark) {
-    :root {
-        --bg: var(--bg-dark);
-        --text: #f8fafc;
-        --text-secondary: #cbd5e1;
-        --glass-bg: var(--glass-dark);
-        --glass-border: var(--glass-border-dark);
-        --shadow: var(--shadow-dark);
-        --icon-color: var(--gold); /* آیکون‌ها در حالت تاریک طلایی */
-    }
-}
-
-:root {
-    --bg: var(--bg-light);
-    --text: var(--text-dark);
-    --text-secondary: var(--text-medium);
-    --glass-bg: var(--glass-light);
-    --glass-border: var(--glass-border-light);
-    --shadow: var(--shadow-light);
-}
-
-/* ========== ریست و تنظیمات پایه ========== */
+/* ============================================================
+   🔄 ریست
+   ============================================================ */
 * {
     margin: 0;
     padding: 0;
@@ -55,23 +66,30 @@
     font-family: 'Vazirmatn', 'Vazir', 'Tahoma', sans-serif;
 }
 
+html { scroll-behavior: smooth; }
+
 body {
-    background: var(--bg);
+    background: var(--bg-0);
+    background-image:
+        radial-gradient(ellipse 80% 60% at 20% 0%, rgba(167, 139, 250, 0.15), transparent 60%),
+        radial-gradient(ellipse 70% 50% at 90% 10%, rgba(255, 200, 87, 0.10), transparent 55%),
+        radial-gradient(ellipse 90% 60% at 50% 100%, rgba(124, 58, 237, 0.12), transparent 60%);
+    background-attachment: fixed;
     min-height: 100vh;
     padding: 20px;
     direction: rtl;
     color: var(--text);
     overflow-x: hidden;
-    transition: background 0.3s, color 0.3s;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
-/* ========== پس‌زمینه انیمیشنی نقطه‌های طلایی ========== */
+/* ============================================================
+   ✨ پس‌زمینه نقطه‌های درخشان
+   ============================================================ */
 .bg-animation {
     position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    inset: 0;
     z-index: var(--z-base);
     pointer-events: none;
     overflow: hidden;
@@ -79,55 +97,69 @@ body {
 
 .dot {
     position: absolute;
-    background: radial-gradient(circle, var(--gold-light) 0%, var(--gold-dark) 100%);
+    background: radial-gradient(circle, var(--gold-light) 0%, var(--gold-dark) 60%, transparent 100%);
     border-radius: 50%;
-    box-shadow: 0 0 15px var(--gold-glow);
-    animation: floatDot 15s infinite ease-in-out;
-    opacity: 0.4;
+    box-shadow:
+        0 0 20px var(--gold-glow),
+        0 0 40px rgba(167, 139, 250, 0.2);
+    animation: floatDot 18s infinite ease-in-out;
+    opacity: 0.5;
     will-change: transform, opacity;
+    filter: blur(0.5px);
 }
 
 @keyframes floatDot {
-    0% {
-        transform: translateY(0) translateX(0) scale(1);
-        opacity: 0.3;
-    }
-    25% {
-        transform: translateY(-30px) translateX(20px) scale(1.2);
-        opacity: 0.6;
-    }
-    50% {
-        transform: translateY(20px) translateX(-15px) scale(0.9);
-        opacity: 0.4;
-    }
-    75% {
-        transform: translateY(-10px) translateX(30px) scale(1.1);
-        opacity: 0.7;
-    }
-    100% {
-        transform: translateY(0) translateX(0) scale(1);
-        opacity: 0.3;
-    }
+    0%   { transform: translateY(0) translateX(0) scale(1);   opacity: 0.25; }
+    25%  { transform: translateY(-40px) translateX(25px) scale(1.25); opacity: 0.7; }
+    50%  { transform: translateY(25px) translateX(-20px) scale(0.85); opacity: 0.4; }
+    75%  { transform: translateY(-15px) translateX(35px) scale(1.15); opacity: 0.8; }
+    100% { transform: translateY(0) translateX(0) scale(1);   opacity: 0.25; }
 }
 
-/* ========== کلاس شیشه‌ای (گلسمورفیسم) ========== */
+/* ============================================================
+   💎 کارت شیشه‌ای
+   ============================================================ */
 .glass-card {
     background: var(--glass-bg);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
+    backdrop-filter: blur(20px) saturate(140%);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
     border: 1px solid var(--glass-border);
-    border-radius: 20px;
-    box-shadow: var(--shadow);
-    transition: box-shadow var(--transition-medium), background 0.3s, border-color 0.3s;
+    border-radius: 22px;
+    box-shadow: var(--glass-shadow);
+    transition: box-shadow var(--transition-medium),
+                border-color var(--transition-medium),
+                transform var(--transition-medium);
     position: relative;
     z-index: var(--z-content);
+    overflow: hidden;
+}
+
+.glass-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg,
+        rgba(255, 200, 87, 0.35),
+        rgba(167, 139, 250, 0.15) 40%,
+        transparent 70%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    pointer-events: none;
+    opacity: 0.7;
 }
 
 .glass-card:hover {
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+    box-shadow: var(--glass-shadow-hover);
+    border-color: var(--glass-border-hover);
+    transform: translateY(-2px);
 }
 
-/* ========== آیکون‌ها ========== */
+/* ============================================================
+   🎯 آیکون‌ها
+   ============================================================ */
 .icon {
     width: 20px;
     height: 20px;
@@ -137,174 +169,193 @@ body {
     stroke-linecap: round;
     stroke-linejoin: round;
     vertical-align: middle;
-    transition: stroke 0.3s;
+    transition: stroke var(--transition-medium);
+    filter: drop-shadow(0 0 6px var(--gold-glow));
 }
 
-/* در عناصری که پس‌زمینه طلایی دارند، آیکون مشکی می‌شود */
 .login-btn .icon,
 .tab.active .icon,
 .user-button:hover .icon {
-    stroke: #000000;
+    stroke: var(--text-on-accent);
+    filter: none;
 }
 
-/* ========== نوتیفیکیشن‌ها ========== */
+/* ============================================================
+   🔔 نوتیفیکیشن
+   ============================================================ */
 .toast {
     position: fixed;
-    top: -100px;
+    top: -120px;
     left: 50%;
     transform: translateX(-50%);
-    background: #ef4444;
+    background: linear-gradient(135deg, #ef4444, #b91c1c);
     color: white;
-    padding: 15px 25px;
-    border-radius: 12px;
+    padding: 15px 28px;
+    border-radius: 14px;
     font-size: 16px;
     font-weight: bold;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 10px 40px rgba(239, 68, 68, 0.4),
+                0 0 0 1px rgba(255, 255, 255, 0.1) inset;
     z-index: var(--z-toast);
-    transition: top 0.5s ease, opacity 0.3s ease;
+    transition: top 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s;
     opacity: 0;
     max-width: 90%;
     text-align: center;
     pointer-events: none;
 }
 
-.toast.show {
-    top: 20px;
-    opacity: 1;
-}
+.toast.show { top: 20px; opacity: 1; }
 
 .update-toast {
-    background: var(--gold);
-    color: black;
-    top: -100px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: var(--text-on-accent);
+    box-shadow: 0 10px 40px var(--gold-glow);
+    top: -120px;
 }
 
-.update-toast.show {
-    top: 80px;
-}
+.update-toast.show { top: 80px; }
 
-/* ========== پنل اصلی ========== */
+/* ============================================================
+   🖼 پنل اصلی
+   ============================================================ */
 .panel {
     max-width: 1000px;
     margin: 0 auto;
     padding: 20px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 22px;
     position: relative;
     z-index: var(--z-content);
 }
 
-.hidden {
-    display: none !important;
-}
+.hidden { display: none !important; }
 
-/* ========== صفحه لاگین ========== */
+/* ============================================================
+   🔐 صفحه لاگین
+   ============================================================ */
 .login-overlay {
     position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background: rgba(255, 255, 255, 0.4);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    inset: 0;
+    background: radial-gradient(ellipse at center, rgba(10, 10, 20, 0.75), rgba(5, 5, 10, 0.95));
+    backdrop-filter: blur(24px) saturate(140%);
+    -webkit-backdrop-filter: blur(24px) saturate(140%);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: var(--z-overlay);
+    animation: fadeIn 0.5s ease;
 }
 
 .login-container {
     width: 90%;
-    max-width: 400px;
-    padding: 30px 25px;
+    max-width: 420px;
+    padding: 40px 30px;
     text-align: center;
+    border-radius: 26px;
 }
 
 .login-title {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 25px;
-    color: var(--text);
+    font-size: 26px;
+    font-weight: 800;
+    margin-bottom: 30px;
+    background: linear-gradient(135deg, var(--gold-light), var(--purple-light));
+    -webkit-background-clip: text;
+            background-clip: text;
+    -webkit-text-fill-color: transparent;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 10px;
+    letter-spacing: 0.5px;
 }
 
 .input-group {
-    margin-bottom: 15px;
+    margin-bottom: 18px;
     text-align: right;
 }
 
 .input-group label {
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 8px;
     font-size: 14px;
-    font-weight: bold;
+    font-weight: 600;
     color: var(--text-secondary);
+    letter-spacing: 0.3px;
 }
 
 .input-group input {
     width: 100%;
-    padding: 10px 12px;
-    border-radius: 10px;
+    padding: 12px 14px;
+    border-radius: 12px;
     border: 1px solid var(--glass-border);
-    background: var(--glass-bg);
+    background: rgba(10, 10, 20, 0.6);
     font-size: 16px;
     outline: none;
     color: var(--text);
-    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+    transition: border-color var(--transition-fast),
+                box-shadow var(--transition-fast),
+                background var(--transition-fast);
 }
+
+.input-group input::placeholder { color: var(--text-muted); }
 
 .input-group input:focus {
     border-color: var(--gold);
-    box-shadow: 0 0 0 3px var(--gold-glow);
+    background: rgba(10, 10, 20, 0.85);
+    box-shadow: 0 0 0 4px var(--gold-glow),
+                0 0 20px rgba(255, 200, 87, 0.15);
 }
 
 .login-btn {
     width: 100%;
-    padding: 12px;
-    background: var(--gold);
-    color: black;
+    padding: 14px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: var(--text-on-accent);
     border: none;
-    border-radius: 10px;
+    border-radius: 12px;
     font-size: 16px;
-    font-weight: bold;
+    font-weight: 800;
     cursor: pointer;
-    transition: background var(--transition-fast), transform var(--transition-fast);
-    margin-top: 10px;
+    transition: transform var(--transition-fast),
+                box-shadow var(--transition-fast),
+                filter var(--transition-fast);
+    margin-top: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
+    box-shadow: 0 6px 24px var(--gold-glow);
+    letter-spacing: 0.5px;
 }
 
 .login-btn:hover {
-    background: var(--gold-light);
     transform: translateY(-2px);
+    box-shadow: 0 10px 32px var(--gold-glow),
+                0 0 40px rgba(255, 200, 87, 0.2);
+    filter: brightness(1.08);
 }
 
-.login-btn:active {
-    transform: translateY(0);
-}
+.login-btn:active { transform: translateY(0) scale(0.98); }
 
 .error-message {
-    color: #ef4444;
+    color: var(--danger);
     font-size: 14px;
-    margin-top: 10px;
+    margin-top: 12px;
     min-height: 20px;
+    font-weight: 600;
 }
 
-/* ========== هدر پنل ========== */
+/* ============================================================
+   🏛 هدر
+   ============================================================ */
 .panel-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
     gap: 15px;
-    padding: 15px 20px;
+    padding: 18px 22px;
     z-index: var(--z-header);
 }
 
@@ -316,34 +367,39 @@ body {
 
 .panel-title {
     font-size: 22px;
-    font-weight: bold;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--gold-light), var(--gold), var(--purple-light));
+    -webkit-background-clip: text;
+            background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: 0.3px;
 }
 
 /* منوی کاربر */
-.user-menu {
-    position: relative;
-    display: inline-block;
-}
+.user-menu { position: relative; display: inline-block; }
 
 .user-button {
-    background: var(--glass-bg);
+    background: var(--glass-bg-strong);
     border: 1px solid var(--glass-border);
-    border-radius: 10px;
-    padding: 8px 12px;
+    border-radius: 12px;
+    padding: 9px 14px;
     cursor: pointer;
     display: flex;
     align-items: center;
     gap: 8px;
     font-size: 15px;
-    font-weight: bold;
+    font-weight: 700;
     color: var(--text);
-    transition: background var(--transition-fast), border-color var(--transition-fast);
+    transition: all var(--transition-fast);
+    backdrop-filter: blur(10px);
 }
 
 .user-button:hover {
-    background: var(--gold-light);
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
     border-color: var(--gold);
-    color: black;
+    color: var(--text-on-accent);
+    box-shadow: 0 6px 20px var(--gold-glow);
+    transform: translateY(-1px);
 }
 
 .user-arrow {
@@ -352,26 +408,24 @@ body {
     transition: transform var(--transition-fast);
 }
 
-.user-button[aria-expanded="true"] .user-arrow {
-    transform: rotate(180deg);
-}
+.user-button[aria-expanded="true"] .user-arrow { transform: rotate(180deg); }
 
 .user-dropdown {
     position: absolute;
-    top: 100%;
+    top: calc(100% + 8px);
     left: 0;
-    background: var(--glass-bg);
-    backdrop-filter: blur(10px);
+    background: var(--glass-bg-strong);
+    backdrop-filter: blur(20px) saturate(140%);
     border: 1px solid var(--glass-border);
-    border-radius: 10px;
-    box-shadow: var(--shadow);
+    border-radius: 14px;
+    box-shadow: var(--glass-shadow);
     z-index: var(--z-dropdown);
-    min-width: 150px;
-    padding: 5px;
+    min-width: 160px;
+    padding: 6px;
     opacity: 0;
     visibility: hidden;
-    transform: translateY(-5px);
-    transition: opacity var(--transition-fast), transform var(--transition-fast), visibility var(--transition-fast);
+    transform: translateY(-8px);
+    transition: all var(--transition-fast);
 }
 
 .user-dropdown.show {
@@ -382,277 +436,317 @@ body {
 
 .logout-btn {
     width: 100%;
-    background: #ef4444;
+    background: linear-gradient(135deg, #ef4444, #b91c1c);
     color: white;
     border: none;
-    padding: 10px;
-    border-radius: 8px;
+    padding: 11px;
+    border-radius: 10px;
     cursor: pointer;
     font-size: 14px;
-    transition: background var(--transition-fast);
+    font-weight: 700;
+    transition: all var(--transition-fast);
+    box-shadow: 0 4px 14px rgba(239, 68, 68, 0.3);
 }
 
 .logout-btn:hover {
-    background: #dc2626;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(239, 68, 68, 0.45);
+    filter: brightness(1.1);
 }
 
-.clock-container {
-    text-align: left;
-    font-size: 14px;
-}
+.clock-container { text-align: left; font-size: 14px; }
 
 .clock {
-    font-size: 20px;
-    font-weight: bold;
-    letter-spacing: 1px;
-    color: var(--text);
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: var(--gold);
+    text-shadow: 0 0 20px var(--gold-glow);
+    font-variant-numeric: tabular-nums;
 }
 
 .date {
     font-size: 13px;
-    opacity: 0.8;
     color: var(--text-secondary);
+    margin-top: 2px;
 }
 
-/* ========== باکس اصلی اطلاعات ========== */
+/* ============================================================
+   📢 باکس اطلاعات
+   ============================================================ */
 .main-info-box {
-    padding: 15px 20px;
+    padding: 20px 24px;
     text-align: center;
+    background: linear-gradient(135deg,
+        rgba(255, 200, 87, 0.06),
+        rgba(167, 139, 250, 0.06));
 }
 
 .main-info-box .box-title {
-    font-size: 16px;
-    color: var(--text-secondary);
-    margin-bottom: 5px;
+    font-size: 15px;
+    color: var(--gold);
+    margin-bottom: 8px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-shadow: 0 0 12px var(--gold-glow);
 }
 
 .main-info-box .box-content {
     font-size: 18px;
-    font-weight: bold;
+    font-weight: 700;
     color: var(--text);
-    line-height: 1.5;
+    line-height: 1.6;
 }
 
-/* ========== تب‌ها ========== */
+/* ============================================================
+   🗂 تب‌ها
+   ============================================================ */
 .tabs {
     display: flex;
-    background: var(--glass-bg);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    border-radius: 15px;
-    padding: 5px;
-    gap: 5px;
+    background: var(--glass-bg-strong);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 18px;
+    padding: 6px;
+    gap: 6px;
     flex-wrap: wrap;
+    box-shadow: var(--glass-shadow);
 }
 
 .tab {
     flex: 1;
     min-width: 90px;
-    padding: 10px;
+    padding: 12px;
     text-align: center;
     cursor: pointer;
-    font-weight: bold;
+    font-weight: 700;
     color: var(--text-secondary);
-    border-radius: 10px;
+    border-radius: 12px;
     background: transparent;
     border: none;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 6px;
-    transition: background var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
+    transition: all var(--transition-fast);
+    font-size: 14px;
 }
 
 .tab:hover {
-    background: var(--gold-light);
-    color: black;
+    background: rgba(255, 200, 87, 0.1);
+    color: var(--gold);
+    transform: translateY(-1px);
 }
 
-.tab:hover .icon {
-    stroke: black;
-}
+.tab:hover .icon { stroke: var(--gold); filter: drop-shadow(0 0 8px var(--gold-glow)); }
 
-.tab:active {
-    transform: scale(0.97);
-}
+.tab:active { transform: scale(0.97); }
 
 .tab.active {
-    background: var(--gold);
-    color: black;
-    box-shadow: 0 4px 10px var(--gold-glow);
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: var(--text-on-accent);
+    box-shadow: 0 6px 24px var(--gold-glow),
+                0 0 40px rgba(255, 200, 87, 0.15);
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
-.tab.active .icon {
-    stroke: black;
-}
+.tab.active .icon { stroke: var(--text-on-accent); filter: none; }
 
-.tab-content {
-    display: none;
-}
-
-.tab-content.active {
-    display: block;
-    animation: fadeIn 0.3s ease;
-}
+.tab-content { display: none; }
+.tab-content.active { display: block; animation: fadeIn 0.35s ease; }
 
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(5px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ========== جدول‌ها ========== */
-.table-wrapper {
-    overflow-x: auto;
-    padding: 5px;
+/* ============================================================
+   📊 جدول‌ها
+   ============================================================ */
+.table-wrapper { overflow-x: auto; padding: 5px; }
+
+.table-wrapper::-webkit-scrollbar { height: 8px; }
+.table-wrapper::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.03); border-radius: 10px; }
+.table-wrapper::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, var(--gold-dark), var(--purple-dark));
+    border-radius: 10px;
 }
 
 table {
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0;
     font-size: 14px;
     min-width: 500px;
+    border-radius: 14px;
+    overflow: hidden;
 }
 
 th {
-    background: var(--glass-bg);
-    color: var(--text);
-    font-weight: bold;
-    padding: 12px 10px;
+    background: linear-gradient(135deg, rgba(255, 200, 87, 0.12), rgba(167, 139, 250, 0.10));
+    color: var(--gold-light);
+    font-weight: 800;
+    padding: 14px 12px;
     text-align: center;
-    border-bottom: 2px solid var(--gold);
+    border-bottom: 2px solid var(--gold-dark);
     white-space: nowrap;
     cursor: pointer;
     user-select: none;
-    transition: background var(--transition-fast);
+    transition: all var(--transition-fast);
+    font-size: 13px;
+    letter-spacing: 0.3px;
 }
 
 th:hover {
-    background: var(--gold-light);
-    color: black;
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: var(--text-on-accent);
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 td {
-    padding: 10px;
-    border-bottom: 1px solid var(--glass-border);
+    padding: 12px 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     text-align: center;
     vertical-align: middle;
     color: var(--text);
+    transition: all var(--transition-fast);
 }
 
-tr:hover td {
-    background: var(--gold-light);
-    color: black;
+tbody tr {
+    transition: all var(--transition-fast);
+}
+
+tbody tr:hover td {
+    background: rgba(255, 200, 87, 0.08);
+    color: var(--gold-light);
 }
 
 /* هایلایت کلاس امروز */
 tr.today-row td {
-    background: rgba(212, 175, 55, 0.3);
+    background: linear-gradient(90deg,
+        rgba(255, 200, 87, 0.14),
+        rgba(255, 200, 87, 0.08));
+    color: var(--gold-light);
+    font-weight: 600;
 }
 
 /* هایلایت کلاس در حال برگزاری */
 tr.current-class-row td {
-    background: rgba(212, 175, 55, 0.5);
-    animation: pulse 2s infinite;
+    background: linear-gradient(90deg,
+        rgba(255, 200, 87, 0.28),
+        rgba(167, 139, 250, 0.22));
+    color: #fff;
+    font-weight: 800;
+    animation: pulse 2.5s infinite;
 }
 
 @keyframes pulse {
-    0% { box-shadow: inset 0 0 0 0 var(--gold-glow); }
-    70% { box-shadow: inset 0 0 0 10px var(--gold-glow); }
+    0%   { box-shadow: inset 0 0 0 0 var(--gold-glow); }
+    70%  { box-shadow: inset 0 0 0 12px transparent; }
     100% { box-shadow: inset 0 0 0 0 var(--gold-glow); }
 }
 
-/* ========== فوتر ========== */
+/* ============================================================
+   🏷 نشان هفته (فرد/زوج)
+   ============================================================ */
+.week-badge {
+    display: inline-block;
+    font-size: 0.72rem;
+    color: var(--gold);
+    background: linear-gradient(135deg, rgba(255, 200, 87, 0.15), rgba(255, 200, 87, 0.05));
+    border: 1px solid rgba(255, 200, 87, 0.25);
+    padding: 2px 8px;
+    border-radius: 8px;
+    margin-right: 5px;
+    font-weight: 700;
+    vertical-align: middle;
+    text-shadow: 0 0 10px var(--gold-glow);
+}
+
+/* ============================================================
+   🦶 فوتر
+   ============================================================ */
 .footer {
-    padding: 12px 20px;
+    padding: 14px 22px;
     text-align: center;
     font-size: 14px;
     color: var(--text-secondary);
     background: var(--glass-bg);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-radius: 15px;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid var(--glass-border);
+    border-radius: 18px;
     margin-top: auto;
+    letter-spacing: 0.3px;
 }
 
-#footer-text {
-    margin: 0;
+#footer-text { margin: 0; }
+
+#footer-text::before {
+    content: "✦ ";
+    color: var(--gold);
+    text-shadow: 0 0 10px var(--gold-glow);
 }
 
-/* ========== واکنش‌گرایی ========== */
+#footer-text::after {
+    content: " ✦";
+    color: var(--purple);
+    text-shadow: 0 0 10px var(--purple-glow);
+}
+
+/* ============================================================
+   📱 واکنش‌گرایی
+   ============================================================ */
 @media (max-width: 768px) {
-    body {
-        padding: 10px;
-    }
+    body { padding: 10px; }
 
-    .panel {
-        padding: 10px;
-        gap: 15px;
-    }
+    .panel { padding: 10px; gap: 16px; }
 
     .panel-header {
         flex-direction: column;
         align-items: flex-start;
     }
 
-    .clock-container {
-        text-align: right;
-        width: 100%;
-    }
+    .clock-container { text-align: right; width: 100%; }
 
-    .panel-title {
-        font-size: 20px;
-    }
+    .panel-title { font-size: 20px; }
 
-    .box-content {
-        font-size: 16px;
-    }
+    .clock { font-size: 20px; }
 
-    table {
-        font-size: 12px;
-        min-width: 400px;
-    }
+    .box-content { font-size: 16px; }
 
-    .tab {
-        font-size: 13px;
-        padding: 8px;
-    }
+    table { font-size: 12px; min-width: 420px; }
 
-    .toast {
-        font-size: 14px;
-        padding: 10px 18px;
-    }
+    th { padding: 10px 8px; font-size: 12px; }
+    td { padding: 10px 8px; }
 
-    .user-button {
-        padding: 6px 10px;
-        font-size: 14px;
-    }
+    .tab { font-size: 12.5px; padding: 9px 6px; min-width: 80px; }
 
-    .user-dropdown {
-        min-width: 120px;
-    }
+    .toast { font-size: 14px; padding: 12px 20px; }
+
+    .user-button { padding: 7px 11px; font-size: 13.5px; }
+
+    .user-dropdown { min-width: 130px; }
+
+    .login-container { padding: 30px 22px; }
+    .login-title { font-size: 22px; }
 }
 
-/* ========== کاهش حرکت برای دسترس‌پذیری ========== */
-@media (prefers-reduced-motion: reduce) {
-    .dot,
-    .toast,
-    .tab,
-    .user-dropdown,
-    .tab-content,
-    .current-class-row,
-    .login-btn,
-    .user-button {
-        animation: none;
-        transition: none;
-    }
+@media (max-width: 420px) {
+    .tab { font-size: 11.5px; padding: 8px 4px; }
+    .tab span { display: none; } /* در موبایل خیلی کوچک فقط آیکون */
+    .tab .icon { width: 22px; height: 22px; }
+}
 
-    .dot {
-        display: none;
+/* ============================================================
+   ♿ کاهش حرکت
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+    .dot, .toast, .tab, .user-dropdown, .tab-content,
+    .current-class-row, .login-btn, .user-button, .glass-card {
+        animation: none !important;
+        transition: none !important;
     }
+    .dot { display: none; }
 }
