@@ -8,17 +8,19 @@ const USERS = {
         courses: [
             { id: 1, name: "تربیت بدنی", professor: "وحید ترک ملک", schedule: "شنبه از 13:00 تا 14:30", exam: "1405/10/10 از 10:30 تا 12:00", units: "۱" },
             { id: 2, name: "ورزش ۱", professor: "حسین ساکی", schedule: "شنبه از 14:45 تا 16:15", exam: "", units: "۱ (عملی)" },
-            { id: 3, name: "زبان انگلیسی عمومی-ترکیبی (۳)", professor: "سینا کسرائی", schedule: "شنبه از 19:15 تا 20:00", exam: "1405/10/25 از 13:00 تا 14:00", units: "۱" },
-            { id: 4, name: "اصول فقه (۱)", professor: "محمد گودرزی", schedule: "یکشنبه از 08:00 تا 09:30", exam: "1405/10/13 از 10:30 تا 12:00", units: "۲" },
-            { id: 5, name: "حقوق سازمان‌های بین‌المللی", professor: "رضا کرمی", schedule: "یکشنبه از 10:00 تا 11:30", exam: "1405/10/20 از 08:30 تا 10:00", units: "۲" },
-            { id: 6, name: "تفسیر موضوعی قرآن", professor: "مجتبی بیرانوند", schedule: "یکشنبه از 13:00 تا 14:30", exam: "1405/10/13 از 12:45 تا 13:45", units: "۲" },
-            { id: 7, name: "حقوق بین‌الملل عمومی (۳) روش‌های حل و فصل مسالمت‌آمیز اختلافات", professor: "مهدی یوسف وند", schedule: "یکشنبه از 14:45 تا 16:15", exam: "1405/10/21 از 08:30 تا 10:00", units: "۲" },
-            { id: 8, name: "حقوق جزای عمومی (۲)", professor: "محمد دشتبانی روزبهانی", schedule: "چهارشنبه از 08:00 تا 09:30", exam: "1405/10/22 از 08:30 تا 10:00", units: "۲" },
+            { id: 3, name: "قواعد فقه (۱) مدنی", professor: "بابک بزرگمهر", schedule: "شنبه از 16:30 تا 18:00", weekType: "فرد", exam: "", units: "۱" },
+            { id: 4, name: "زبان انگلیسی عمومی-ترکیبی (۳)", professor: "سینا کسرائی", schedule: "شنبه از 19:15 تا 20:00", exam: "1405/10/25 از 13:00 تا 14:00", units: "۱" },
+            { id: 5, name: "اصول فقه (۱)", professor: "محمد گودرزی", schedule: "یکشنبه از 08:00 تا 09:30", exam: "1405/10/13 از 10:30 تا 12:00", units: "۲" },
+            { id: 6, name: "حقوق سازمان‌های بین‌المللی", professor: "رضا کرمی", schedule: "یکشنبه از 10:00 تا 11:30", exam: "1405/10/20 از 08:30 تا 10:00", units: "۲" },
+            { id: 7, name: "تفسیر موضوعی قرآن", professor: "مجتبی بیرانوند", schedule: "یکشنبه از 13:00 تا 14:30", exam: "1405/10/13 از 12:45 تا 13:45", units: "۲" },
+            { id: 8, name: "حقوق بین‌الملل عمومی (۳) روش‌های حل و فصل مسالمت‌آمیز اختلافات", professor: "مصطفی یوسفوند", schedule: "یکشنبه از 14:45 تا 16:15", exam: "1405/10/21 از 08:30 تا 10:00", units: "۲" },
             { id: 9, name: "زبان انگلیسی عمومی-ترکیبی (۲)", professor: "مریم بیرجندی", schedule: "یکشنبه از 19:30 تا 20:15", exam: "1405/11/02 از 13:00 تا 14:00", units: "۱" },
             { id: 10, name: "آیین دادرسی مدنی (۱)", professor: "محمدصفر نوروزی", schedule: "دوشنبه از 14:45 تا 16:15", exam: "1405/10/14 از 08:30 تا 10:00", units: "۲" },
             { id: 11, name: "انس با قرآن کریم", professor: "محمدحسن مقصودی گودرزی", schedule: "دوشنبه از 16:30 تا 18:00", exam: "1405/10/14 از 12:45 تا 13:45", units: "۱" },
             { id: 12, name: "حقوق مدنی (۳) کلیات قراردادها", professor: "عبدالمحمد کردی", schedule: "سه شنبه از 07:30 تا 09:45", exam: "1405/10/19 از 10:30 تا 12:00", units: "۳" },
-            { id: 13, name: "حقوق تجارت (۳) اسناد تجاری", professor: "حسین شعبان پور", schedule: "چهارشنبه از 13:00 تا 14:30", exam: "1405/10/15 از 10:30 تا 12:00", units: "۲" }
+            { id: 13, name: "حقوق جزای عمومی (۲)", professor: "محمد دشتبانی روزبهانی", schedule: "چهارشنبه از 08:00 تا 09:30", exam: "1405/10/22 از 08:30 تا 10:00", units: "۲" },
+            { id: 14, name: "حقوق تجارت (۳) اسناد تجاری", professor: "حسین شعبان پور", schedule: "چهارشنبه از 13:00 تا 14:30", exam: "1405/10/15 از 10:30 تا 12:00", units: "۲" },
+            { id: 15, name: "حقوق تجارت (۴) ورشکستگی", professor: "حسین شعبان پور", schedule: "چهارشنبه از 14:45 تا 16:15", exam: "", units: "۲" }
         ]
     },
     NARGES: {
@@ -192,13 +194,11 @@ function updateClock() {
     const dateEl = document.getElementById('date');
     if (!clockEl || !dateEl) return;
 
-    // ساعت محلی گوشی
     const hours = String(now.getHours()).padStart(2, '0');
     const minutes = String(now.getMinutes()).padStart(2, '0');
     const seconds = String(now.getSeconds()).padStart(2, '0');
     clockEl.textContent = `${hours}:${minutes}:${seconds}`;
 
-    // تاریخ شمسی بر اساس ساعت محلی
     const formatter = new Intl.DateTimeFormat('fa-IR', {
         weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
     });
@@ -252,11 +252,12 @@ function renderScheduleTable() {
         const schedule = parseSchedule(course.schedule);
         if (!schedule) return;
         const dayName = DAYS_MAP[schedule.dayIndex];
+        const weekLabel = course.weekType ? ` <span class="week-badge">(هفته ${course.weekType})</span>` : '';
         const tr = document.createElement('tr');
         if (schedule.dayIndex === todayIndex) tr.classList.add('today-row');
         if (currentClass && course.id === currentClass.id) tr.classList.add('current-class-row');
         tr.innerHTML = `
-            <td>${dayName}</td>
+            <td>${dayName}${weekLabel}</td>
             <td>${schedule.startTime} تا ${schedule.endTime}</td>
             <td>${course.name}</td>
             <td>${course.professor}</td>
@@ -311,12 +312,13 @@ function renderListTable() {
         const schedule = parseSchedule(course.schedule);
         const dayName = schedule ? DAYS_MAP[schedule.dayIndex] : 'نامشخص';
         const timeStr = schedule ? `${schedule.startTime} تا ${schedule.endTime}` : 'نامشخص';
+        const weekLabel = course.weekType ? ` <span class="week-badge">(هفته ${course.weekType})</span>` : '';
         const tr = document.createElement('tr');
         tr.innerHTML = `
             <td>${idx + 1}</td>
             <td>${course.name}</td>
             <td>${course.professor}</td>
-            <td>${dayName} ${timeStr}</td>
+            <td>${dayName} ${timeStr}${weekLabel}</td>
             <td>${course.exam || '<span style="color:#aaa;">ثبت نشده</span>'}</td>
             <td>${course.units || '—'}</td>
         `;
@@ -416,7 +418,7 @@ function updateUserDisplay() {
     }
 }
 
-// ========== به‌روزرسانی فوتر (متن ثابت) ==========
+// ========== به‌روزرسانی فوتر ==========
 function updateFooter() {
     const footerEl = document.getElementById('footer-text');
     if (footerEl) {
@@ -424,7 +426,7 @@ function updateFooter() {
     }
 }
 
-// ========== به‌روزرسانی theme-color بر اساس دارک مود ==========
+// ========== به‌روزرسانی theme-color ==========
 function updateThemeColor() {
     const metaThemeColor = document.getElementById('theme-color-meta');
     if (!metaThemeColor) return;
